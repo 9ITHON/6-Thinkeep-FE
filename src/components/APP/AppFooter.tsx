@@ -45,7 +45,7 @@ export const AppFooter = () => {
               <div className="absolute inset-0 z-1 pointer-events-none">
                 <div
                   className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
-                  w-[100%] h-[95%] blur-[10px]
+                  w-[90%] h-[90%] blur-[8px]
                   bg-[radial-gradient(ellipse_at_center,_#FFF782_0%,_#FFF782_20%,_#FFF782_40%,_#FFF782_55%,_#1B1B17_75%,_#1B1B17_100%)]"
                 />
               </div>
