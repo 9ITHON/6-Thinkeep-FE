@@ -1,33 +1,31 @@
 import React from "react";
 
 interface BarGraphProps {
-  total: number;
-  recorded: number;
+  total: number; // 전체 노드 개수
+  recorded: number; // 채워진 노드 개수
 }
 
 const BarGraph = ({ total, recorded }: BarGraphProps) => {
+  const nodeSize = 32;
+  const totalWidth = 300;
+  const spacing = totalWidth / total;
   const nodes = Array.from({ length: total }, (_, i) => i + 1);
 
-  const nodeSize = 32;
-  const spacing = 70;
-  const barLength = spacing * (total - 1);
-
-  const filledLength =
-    recorded === 0 ? 0 : spacing * (recorded - 1) + nodeSize / 2 + nodeSize;
+  const filledLength = recorded === 0 ? 0 : spacing * recorded;
 
   return (
     <div
       className="relative"
       style={{
-        width: barLength + nodeSize,
+        width: totalWidth,
         height: nodeSize,
       }}
     >
       <div
         className="absolute top-1/2 -translate-y-1/2 bg-[#7C7C7C] rounded-full"
         style={{
-          left: -nodeSize,
-          width: barLength + nodeSize * 2,
+          left: 0,
+          width: totalWidth,
           height: 15,
         }}
       />
@@ -35,7 +33,7 @@ const BarGraph = ({ total, recorded }: BarGraphProps) => {
       <div
         className="absolute top-1/2 -translate-y-1/2 bg-[#FFEF7E] rounded-full"
         style={{
-          left: -nodeSize,
+          left: 0,
           width: filledLength,
           height: 15,
           transition: "width 0.3s",
@@ -44,7 +42,6 @@ const BarGraph = ({ total, recorded }: BarGraphProps) => {
 
       {nodes.map((num, index) => {
         const isFilled = index < recorded;
-
         return (
           <div
             key={num}
@@ -54,7 +51,7 @@ const BarGraph = ({ total, recorded }: BarGraphProps) => {
               isFilled ? "border-[#FFEF7E]" : "border-[#7C7C7C]"
             } rounded-full flex items-center justify-center font-semibold text-[18px] leading-[23px]`}
             style={{
-              left: spacing * index,
+              left: spacing * (index + 1) - nodeSize / 2,
               transition: "background 0.3s, border 0.3s, color 0.3s",
             }}
           >
