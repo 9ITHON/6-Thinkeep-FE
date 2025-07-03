@@ -29,7 +29,7 @@
   --lineheight-body3: 16px;
   --lineheight-button: 18px;
 
-  --letterspacing: -2%;
+  --letterspacing: -0.02em;
   --font-family: "Pretendard", sans-serif;
 }
 
