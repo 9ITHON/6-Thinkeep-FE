@@ -1,26 +1,128 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-primary: #fff782;
+  --color-background: #1b1b17;
+  --color-black: #090909;
+  --color-white: #fafaf8;
+  --color-gray1: #2d2d29;
+  --color-gray2: #7c7c7c;
+  --color-gray3: #e6e6e6;
+  --color-blue: #85beff;
+  --color-red: #ff7c68;
+  --color-popup-bg: #e2e2e2;
+
+  --font-h1: 32px;
+  --font-h2: 24px;
+  --font-sub1: 20px;
+  --font-body1: 18px;
+  --font-body2: 18px;
+  --font-body3: 16px;
+  --font-button1: 14px;
+  --font-button2: 14px;
+
+  --lineheight-h1: 40px;
+  --lineheight-h2: 30px;
+  --lineheight-sub1: 26px;
+  --lineheight-body1: 23px;
+  --lineheight-body2: 23px;
+  --lineheight-body3: 16px;
+  --lineheight-button: 18px;
+
+  --letterspacing: -2%;
+  --font-family: "Pretendard", sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.h1 {
+  font-family: var(--font-family);
+  font-size: var(--font-h1);
+  font-weight: 600;
+  line-height: var(--lineheight-h1);
+  letter-spacing: var(--letterspacing);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.h2 {
+  font-family: var(--font-family);
+  font-size: var(--font-h2);
+  font-weight: 600;
+  line-height: var(--lineheight-h2);
+  letter-spacing: var(--letterspacing);
+}
+
+.sub1 {
+  font-family: var(--font-family);
+  font-size: var(--font-sub1);
+  font-weight: 600;
+  line-height: var(--lineheight-sub1);
+  letter-spacing: var(--letterspacing);
+}
+
+.body1 {
+  font-family: var(--font-family);
+  font-size: var(--font-body1);
+  font-weight: 600;
+  line-height: var(--lineheight-body1);
+  letter-spacing: var(--letterspacing);
+}
+
+.body2 {
+  font-family: var(--font-family);
+  font-size: var(--font-body2);
+  font-weight: 400;
+  line-height: var(--lineheight-body2);
+  letter-spacing: var(--letterspacing);
+}
+
+.body3 {
+  font-family: var(--font-family);
+  font-size: var(--font-body3);
+  font-weight: 600;
+  line-height: var(--lineheight-body3);
+  letter-spacing: var(--letterspacing);
+}
+
+.button1 {
+  font-family: var(--font-family);
+  font-size: var(--font-button1);
+  font-weight: 700;
+  line-height: var(--lineheight-button);
+  letter-spacing: var(--letterspacing);
+}
+
+.button2 {
+  font-family: var(--font-family);
+  font-size: var(--font-button2);
+  font-weight: 500;
+  line-height: var(--lineheight-button);
+  letter-spacing: var(--letterspacing);
+}
+
+.shadow-default {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+}
+
+.shadow-yellow {
+  box-shadow: 0px 4px 8px rgba(255, 247, 130, 0.5);
+}
+
+.shadow-inner {
+  box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.backdrop-blur {
+  backdrop-filter: blur(12px);
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-white);
+  font-family: var(--font-family);
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: var(--color-black);
+    color: var(--color-white);
+  }
 }
