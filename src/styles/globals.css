@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-:root {
+@theme {
   --color-primary: #fff782;
   --color-background: #1b1b17;
   --color-black: #090909;
@@ -33,7 +33,7 @@
   --font-family: "Pretendard", sans-serif;
 }
 
-.h1 {
+/* .h1 {
   font-family: var(--font-family);
   font-size: var(--font-h1);
   font-weight: 600;
@@ -125,4 +125,4 @@ body {
     background-color: var(--color-black);
     color: var(--color-white);
   }
-}
+} */
