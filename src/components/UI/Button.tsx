@@ -2,11 +2,11 @@ import React from "react";
 
 export interface ButtonProps {
     text: string;
-    onClick?: () => void;
     className: string | "";
+    onClick?: () => void;
 }
 
-export const Button = ({ text, onClick, className }: ButtonProps) => {
+export const Button = ({ text, className, onClick }: ButtonProps) => {
 
     return (
         <button onClick={onClick} className={className}>
