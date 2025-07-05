@@ -17,6 +17,7 @@ declare module "react-speech-recognition" {
     transcript: string;
     interimTranscript: string;
     finalTranscript: string;
+    resetTranscript: () => void;
     browserSupportsSpeechRecognition: boolean;
     listening: boolean;
   }
