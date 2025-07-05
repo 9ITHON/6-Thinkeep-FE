@@ -17,7 +17,6 @@ declare module "react-speech-recognition" {
     transcript: string;
     interimTranscript: string;
     finalTranscript: string;
-    resetTranscript: () => void;
     browserSupportsSpeechRecognition: boolean;
     listening: boolean;
   }
@@ -26,5 +25,4 @@ declare module "react-speech-recognition" {
 
   export function startListening(options?: SpeechRecognitionOptions): void;
   export function stopListening(): void;
-  export function resetTranscript(): void;
 }
