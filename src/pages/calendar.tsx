@@ -5,7 +5,7 @@ import CalendarMonth from "../components/UI/CalendarMonth";
 import Button from "../components/UI/Button";
 import { background_img } from "@/assets";
 import Image from "next/image";
-import { getCalendarWeeks } from "../util/dateUtils";
+import { getCalendarWeeks } from "../util/Date";
 import { AppFooter } from "@/components/APP/AppFooter";
 
 const Calendar = () => {
