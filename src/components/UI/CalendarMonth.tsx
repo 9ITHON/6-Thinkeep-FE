@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 interface CalendarMonthProps {
   selected: string;
@@ -6,15 +6,26 @@ interface CalendarMonthProps {
 }
 
 const CalendarMonth = ({ selected, onSelect }: CalendarMonthProps) => {
-  const months = [];
+  const months: string[] = [];
 
-  // 2025년부터 2026년까지의 월 생성
   for (let year = 2025; year <= 2026; year++) {
     for (let month = 1; month <= 12; month++) {
       const formatted = `${year}.${month.toString().padStart(2, "0")}`;
       months.push(formatted);
     }
   }
+
+  // 선택된 월에 ref 달기
+  const selectedRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (selectedRef.current) {
+      selectedRef.current.scrollIntoView({
+        behavior: "auto", // or "smooth"
+        block: "center",
+      });
+    }
+  }, []);
 
   return (
     <div
@@ -23,24 +34,28 @@ const CalendarMonth = ({ selected, onSelect }: CalendarMonthProps) => {
              flex flex-col items-center py-3 z-50 max-h-[240px] overflow-y-auto
              scrollbar-hide touch-auto"
     >
-      {months.map((month, idx) => (
-        <button
-          key={idx}
-          className={`
-            relative h-[55px] flex items-center justify-center
-            text-[18px] font-normal tracking-[-0.02em] p-2
-            ${
-              selected === month
-                ? "bg-[#090909] text-[#FFF782] rounded-full w-[168px]"
-                : "text-[#FAFAF8]"
-            }
-          `}
-          onClick={() => onSelect(month)}
-        >
-          {month}
-        </button>
-      ))}
+      {months.map((month, idx) => {
+        const isSelected = selected === month;
+
+        return (
+          <button
+            key={idx}
+            ref={isSelected ? selectedRef : null}
+            className={`relative h-[55px] flex items-center justify-center
+                        text-[18px] font-normal tracking-[-0.02em] p-2
+                        ${
+                          isSelected
+                            ? "bg-[#090909] text-[#FFF782] rounded-full w-[168px]"
+                            : "text-[#FAFAF8]"
+                        }`}
+            onClick={() => onSelect(month)}
+          >
+            {month}
+          </button>
+        );
+      })}
     </div>
   );
 };
+
 export default CalendarMonth;
