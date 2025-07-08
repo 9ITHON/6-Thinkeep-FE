@@ -29,4 +29,14 @@ export const emotionImageMap: Record<string, {image: string; color: string; text
         color: "text-red",
         text: "화나요"
     },
+    choose: {
+        image: "/emotions/howEmotion.svg",
+        color:"",
+        text:""
+    },
+    nothing: {
+        image: "",
+        color: "",
+        text: ""
+    }
 }
