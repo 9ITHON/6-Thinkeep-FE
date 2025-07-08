@@ -5,8 +5,8 @@ import CalendarMonth from "../components/UI/CalendarMonth";
 import Button from "../components/UI/Button";
 import { background_img } from "@/assets";
 import Image from "next/image";
-import { getCalendarWeeks } from "../util/Date";
-import { AppFooter } from "@/components/APP/AppFooter";
+import { getCalendarWeeks } from "../utils/Date";
+import AppFooter from "@/components/App/AppFooter";
 
 const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -36,7 +36,7 @@ const Calendar = () => {
       />
 
       <div className="relative z-10 flex flex-col w-full h-full pt-[84px]">
-        <div className="flex flex-col w-full flex-1 overflow-hidden">
+        <div className="flex flex-col flex-1 w-full overflow-hidden">
           {/* 월 표시 헤더 */}
           <div className="flex justify-center items-center h-[56px] w-full relative">
             <Button

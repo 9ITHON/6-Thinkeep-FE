@@ -39,10 +39,10 @@ export const AppFooter = () => {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className="relative flex-1 flex flex-col items-center justify-center gap-2 py-2 rounded-full"
+            className="relative flex flex-col items-center justify-center flex-1 gap-2 py-2 rounded-full"
           >
             {isActive && (
-              <div className="absolute inset-0 z-1 pointer-events-none">
+              <div className="absolute inset-0 pointer-events-none z-1">
                 <div
                   className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
                   w-[90%] h-[90%] blur-[8px]
@@ -52,7 +52,7 @@ export const AppFooter = () => {
             )}
 
             <div className="relative z-10 flex flex-col items-center justify-center gap-2">
-              <div className="w-6 h-6 relative">
+              <div className="relative w-6 h-6">
                 <Image
                   src={isActive ? tab.activeIcon : tab.icon}
                   alt={tab.label}
@@ -74,3 +74,5 @@ export const AppFooter = () => {
     </footer>
   );
 };
+
+export default AppFooter;
