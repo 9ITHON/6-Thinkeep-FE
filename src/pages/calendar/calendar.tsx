@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { format } from "date-fns";
 import CalendarDayCard, {
   CalendarCardProps,
-} from "../components/UI/CalendarDayCard";
-import CalendarMonth from "../components/UI/CalendarMonth";
-import Button from "../components/UI/Button";
+} from "../../components/UI/CalendarDayCard";
+import CalendarMonth from "../../components/UI/CalendarMonth";
+import Button from "../../components/UI/Button";
 import Image from "next/image";
-import { getCalendarWeeks } from "../utils/Date";
-import { getEmotionByDate } from "../utils/emotionUtils";
+import { getCalendarWeeks } from "../../utils/Date";
+import { getEmotionByDate } from "../../utils/emotionUtils";
 
 const Calendar = () => {
   // 임시 확인용 데이터
@@ -49,10 +49,13 @@ const Calendar = () => {
           {/* 월 표시 헤더 */}
           <div className="flex justify-center items-center h-[56px] w-full relative">
             <Button
-              text={`${selected} ▼`}
-              className="text-[20px] font-semibold text-white tracking-[-0.02em]"
+              className="flex items-center gap-1 text-[20px] font-semibold text-white tracking-[-0.02em]"
               onClick={() => setIsMonthOpen((prev) => !prev)}
-            />
+            >
+              {selected}
+              <Image src="/arrow_down.svg" alt="arrow" width={20} height={20} />
+            </Button>
+
             {isMonthOpen && (
               <CalendarMonth selected={selected} onSelect={handleMonthSelect} />
             )}
