@@ -1,12 +1,23 @@
 import React, { useState } from "react";
 import { format } from "date-fns";
-import CalendarDayCard from "../components/UI/CalendarDayCard";
+import CalendarDayCard, {
+  CalendarCardProps,
+} from "../components/UI/CalendarDayCard";
 import CalendarMonth from "../components/UI/CalendarMonth";
 import Button from "../components/UI/Button";
 import Image from "next/image";
 import { getCalendarWeeks } from "../utils/Date";
+import { getEmotionByDate } from "../utils/emotionUtils";
 
 const Calendar = () => {
+  // 임시 확인용 데이터
+  const mockEmotionMap: Record<string, CalendarCardProps["emotion"]> = {
+    "2025-07-01": "happy",
+    "2025-07-02": "gloomy",
+    "2025-07-03": "angry",
+    "2025-07-08": "sad",
+  };
+
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isMonthOpen, setIsMonthOpen] = useState(false);
 
@@ -75,19 +86,16 @@ const Calendar = () => {
               >
                 {week.map((day) => {
                   const isThisMonth = day.getMonth() + 1 === month;
-                  const mood = !isThisMonth
-                    ? undefined
-                    : day.getDate() === 31
-                    ? "blue"
-                    : day.getDate() === 2
-                    ? "yellow"
-                    : "disabled";
+                  const emotion = isThisMonth
+                    ? getEmotionByDate(day, mockEmotionMap)
+                    : undefined;
 
                   return (
                     <CalendarDayCard
                       key={day.toISOString()}
                       date={day.getDate()}
-                      mood={mood}
+                      emotion={emotion}
+                      disabled={!isThisMonth}
                     />
                   );
                 })}
