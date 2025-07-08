@@ -1,8 +1,8 @@
 import React from "react";
-import CardSection, { CardSectionProps } from "./CardSection";
+import QuestionCard, {QuestionCardProps} from "./QuestionCard";
 
 export interface CardListProps {
-    cards: CardSectionProps[];
+    cards: QuestionCardProps[];
 }
 
 export const CardList = ({ cards }: CardListProps) => {
@@ -10,7 +10,7 @@ export const CardList = ({ cards }: CardListProps) => {
         <div className="flex p-4 space-x-4 overflow-x-auto">
             {cards.map((card, index) => (
                 <div key={index} className="flex-shrink-0">
-                    <CardSection title={card.title} illustration={card.illustration} />
+                    <QuestionCard title={card.title} emotion={card.emotion} iconSize={card.iconSize} icon={card.icon} micMessage={card.micMessage} />
                 </div>
             ))}
         </div>
