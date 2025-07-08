@@ -3,10 +3,8 @@ import { format } from "date-fns";
 import CalendarDayCard from "../components/UI/CalendarDayCard";
 import CalendarMonth from "../components/UI/CalendarMonth";
 import Button from "../components/UI/Button";
-import { background_img } from "@/assets";
 import Image from "next/image";
 import { getCalendarWeeks } from "../utils/Date";
-import AppFooter from "@/components/App/AppFooter";
 
 const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -28,7 +26,7 @@ const Calendar = () => {
     <div className="relative w-full h-screen overflow-hidden">
       {/* 배경 이미지 */}
       <Image
-        src={background_img}
+        src="/images/background_img.png"
         alt="배경"
         layout="fill"
         objectFit="cover"
@@ -97,7 +95,6 @@ const Calendar = () => {
             ))}
           </div>
         </div>
-        <AppFooter />
       </div>
     </div>
   );
