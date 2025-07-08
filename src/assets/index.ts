@@ -7,4 +7,6 @@ export { default as mail } from "./icons/mail.svg";
 export { default as mail_light } from "./icons/mail_light.svg";
 export { default as settings } from "./icons/settings.svg";
 export { default as settings_light } from "./icons/settings_light.svg";
- 
+
+// 배경이미지
+export { default as background_img } from "./images/배경.png";
