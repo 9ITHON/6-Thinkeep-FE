@@ -4,10 +4,12 @@ import React from "react";
 interface CircleGraphProps {
   currentDay: number;
   badgeDay: number;
+  textDay?: number;
 }
 
-const CircleGraph = ({ currentDay, badgeDay }: CircleGraphProps) => {
-  const progress = Math.min((currentDay / badgeDay) * 100, 100);
+const CircleGraph = ({ currentDay, badgeDay, textDay }: CircleGraphProps) => {
+  const progress =
+    badgeDay > 0 ? Math.min((currentDay / badgeDay) * 100, 100) : 0;
   const filledColor = "#FFF782";
   const emptyColor = "#7C7C7C";
 
@@ -26,7 +28,7 @@ const CircleGraph = ({ currentDay, badgeDay }: CircleGraphProps) => {
 
       <div className="absolute inset-0 flex items-center justify-center">
         <span className="text-[32px] font-semibold text-white">
-          {currentDay}일
+          {textDay ?? currentDay}일
         </span>
       </div>
     </div>
