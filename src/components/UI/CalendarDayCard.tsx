@@ -1,38 +1,47 @@
 import React from "react";
+import Image from "next/image";
+import { emotionSmallImageMap } from "@/utils/emotionSmallMap";
 
 export interface CalendarCardProps {
   date: number | string;
-  mood?: "yellow" | "blue" | "red" | "gray" | "disabled";
+  emotion?: "happy" | "good" | "soso" | "gloomy" | "sad" | "angry";
+  disabled?: boolean;
   onClick?: () => void;
 }
 
-const moodColors: Record<NonNullable<CalendarCardProps["mood"]>, string> = {
-  yellow: "bg-[#FFF782] text-[#1B1B17]",
-  blue: "bg-[#85BEFF] text-[#1B1B17]",
-  red: "bg-[#FF7C68] text-[#1B1B17]",
-  gray: "bg-[#E6E6E6] text-[#1B1B17]",
-  disabled: "bg-[#1B1B17] text-[#7C7C7C]",
-};
-
 const CalendarDayCard = ({
   date,
-  mood = "disabled",
+  emotion,
+  disabled = false,
   onClick,
 }: CalendarCardProps) => {
+  const backgroundColor = emotion ? "bg-black" : "bg-background";
+
   return (
     <div
-      className={`relative w-[49px] h-[76px] rounded-[7px] flex items-center justify-center`}
-      onClick={onClick}
+      className={`relative w-[49px] h-[76px] rounded-[7px] flex flex-col items-center justify-start ${backgroundColor} cursor-pointer`}
+      onClick={disabled ? undefined : onClick}
     >
-      <div
-        className={`w-[49px] h-[76px] rounded-[5px] flex items-start justify-center pt-[10px] font-semibold text-[18px] leading-[23px] tracking-[-0.02em] ${
-          mood === "disabled" ? "" : moodColors[mood]
-        } `}
+      {/* 날짜 텍스트 */}
+      <span
+        className={`pt-[8px] font-semibold text-[18px] leading-[23px] tracking-[-0.02em] ${
+          disabled ? "text-gray2" : "text-white"
+        }`}
       >
-        <span className={mood === "disabled" ? moodColors["disabled"] : ""}>
-          {date}
-        </span>
-      </div>
+        {date}
+      </span>
+
+      {/* 이모지 이미지 */}
+      {emotion && (
+        <div className="mt-[6px]">
+          <Image
+            src={emotionSmallImageMap[emotion]}
+            alt={`${emotion} icon`}
+            width={32}
+            height={32}
+          />
+        </div>
+      )}
     </div>
   );
 };
