@@ -23,7 +23,6 @@ const LoginPage = () => {
       />
 
       <div className="relative z-30 flex flex-col h-full pt-[70px] px-6">
-        {/* 텍스트 영역 - 왼쪽 정렬 */}
         <div className="text-start leading-tight mb-11">
           <p className="text-[32px] font-semibold text-primary">
             하루 5분<span className="text-white">으로</span>
@@ -34,7 +33,6 @@ const LoginPage = () => {
           </p>
         </div>
 
-        {/* 로고 영역 - 중앙 정렬을 위해 별도 div에 center 설정 */}
         <div className="flex flex-col items-center justify-center w-full mt-20 mb-4">
           <Image
             src="/thinkeep_symbol.svg"
@@ -46,7 +44,6 @@ const LoginPage = () => {
           <Image src="/thinkeep_logo.svg" alt="logo" width={160} height={50} />
         </div>
 
-        {/* 카카오 로그인 버튼 - 하단 고정 & 중앙 정렬 */}
         <div className="absolute bottom-30 left-1/2 -translate-x-1/2">
           <KakaoLoginButton />
         </div>
