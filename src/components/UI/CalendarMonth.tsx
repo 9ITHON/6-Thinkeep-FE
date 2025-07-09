@@ -21,7 +21,7 @@ const CalendarMonth = ({ selected, onSelect }: CalendarMonthProps) => {
   useEffect(() => {
     if (selectedRef.current) {
       selectedRef.current.scrollIntoView({
-        behavior: "auto", // or "smooth"
+        behavior: "auto",
         block: "center",
       });
     }
@@ -30,7 +30,7 @@ const CalendarMonth = ({ selected, onSelect }: CalendarMonthProps) => {
   return (
     <div
       className="absolute w-[200px] left-1/2 top-[64px] -translate-x-1/2
-             bg-[#2D2D29] shadow-[0px_4px_40px_rgba(0,0,0,0.5)] rounded-[25px]
+             bg-gray1 shadow-[0px_4px_40px_rgba(0,0,0,0.5)] rounded-[25px]
              flex flex-col items-center py-3 z-50 max-h-[240px] overflow-y-auto
              scrollbar-hide touch-auto"
     >
@@ -45,8 +45,8 @@ const CalendarMonth = ({ selected, onSelect }: CalendarMonthProps) => {
                         text-[18px] font-normal tracking-[-0.02em] p-2
                         ${
                           isSelected
-                            ? "bg-[#090909] text-[#FFF782] rounded-full w-[168px]"
-                            : "text-[#FAFAF8]"
+                            ? "bg-black text-primary rounded-full w-[168px]"
+                            : "text-white"
                         }`}
             onClick={() => onSelect(month)}
           >

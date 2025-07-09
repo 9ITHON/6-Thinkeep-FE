@@ -15,7 +15,7 @@ const CalendarDayCard = ({
   disabled = false,
   onClick,
 }: CalendarCardProps) => {
-  const backgroundColor = emotion ? "bg-[#090909]" : "bg-[#1B1B17]";
+  const backgroundColor = emotion ? "bg-black" : "bg-background";
 
   return (
     <div
@@ -25,7 +25,7 @@ const CalendarDayCard = ({
       {/* 날짜 텍스트 */}
       <span
         className={`pt-[8px] font-semibold text-[18px] leading-[23px] tracking-[-0.02em] ${
-          disabled ? "text-[#7C7C7C]" : "text-[#FAFAF8]"
+          disabled ? "text-gray2" : "text-white"
         }`}
       >
         {date}

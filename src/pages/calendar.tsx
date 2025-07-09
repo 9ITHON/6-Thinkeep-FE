@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { format } from "date-fns";
 import CalendarDayCard, {
   CalendarCardProps,
-} from "../../components/UI/CalendarDayCard";
-import CalendarMonth from "../../components/UI/CalendarMonth";
-import Button from "../../components/UI/Button";
+} from "../components/UI/CalendarDayCard";
+import CalendarMonth from "../components/UI/CalendarMonth";
+import Button from "../components/UI/Button";
 import Image from "next/image";
-import { getCalendarWeeks } from "../../utils/Date";
-import { getEmotionByDate } from "../../utils/emotionUtils";
+import { getCalendarWeeks } from "../utils/Date";
+import { getEmotionByDate } from "../utils/emotionUtils";
 
 const Calendar = () => {
   // 임시 확인용 데이터
@@ -61,7 +61,7 @@ const Calendar = () => {
             )}
           </div>
 
-          <div className="flex flex-col w-full items-center flex-1  rounded-t-[32px] bg-[#1B1B17] mt-2">
+          <div className="flex flex-col w-full items-center flex-1 rounded-t-[32px] bg-background mt-2">
             {/* 요일 헤더 */}
             <div className="grid grid-cols-7 w-full text-[18px] font-semibold tracking-[-0.02em] text-white mt-3">
               {["일", "월", "화", "수", "목", "금", "토"].map((day, idx) => (
@@ -69,10 +69,10 @@ const Calendar = () => {
                   key={day}
                   className={` mt-2 mb-2 text-center ${
                     idx === 0
-                      ? "text-[#FF7C68]"
+                      ? "text-red"
                       : idx === 6
-                      ? "text-[#85BEFF]"
-                      : "text-[#FAFAF8]"
+                      ? "text-blue"
+                      : "text-white"
                   }`}
                 >
                   {day}
@@ -85,7 +85,7 @@ const Calendar = () => {
             {weeks.map((week, weekIdx) => (
               <div
                 key={weekIdx}
-                className="flex gap-2 border-t border-[#7C7C7C]/40 pt-2 pb-2"
+                className="flex gap-2 border-t border-gray2/40 pt-2 pb-2"
               >
                 {week.map((day) => {
                   const isThisMonth = day.getMonth() + 1 === month;
