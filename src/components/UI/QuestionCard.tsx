@@ -15,17 +15,17 @@ export const QuestionCard = ({ title, emotion = 'nothing', iconSize, icon, micMe
     const WrapperSize = (micMessage ? 'w-[19rem] h-[30rem]' : 'w-[19rem] h-[22rem]');
 
     return (
-        <div className={`bg-gray1 flex flex-col justify-evenly ${WrapperSize} rounded-2xl`}>
+        <div className={`bg-gray1 flex flex-col justify-evenly items-center ${WrapperSize} rounded-2xl`}>
             {title}
             {
                 emotion === 'nothing' ? (
                     <>
-                        <div className="flex justify-center w-full">
+                        <div className="flex justify-center w-full items-centers">
                             <Image src={icon!} alt='기분 로딩중' width={iconSize} height={iconSize} />
                         </div>
                         {micMessage ? (
                             <>
-                                <CustomInput size='medium' borderStyle="dashed" placeholder="마이크를 눌러 말해보세요"  />
+                                <CustomInput  externalValue="" placeholder="마이크를 눌러 말해보세요"  />
                             </>
                         ) : (
                             <>
