@@ -1,30 +1,23 @@
-import React, { useState } from "react";
+"use client";
+import React, { useMemo, useState } from "react";
 import Image from "next/image";
-import {
-  assignment,
-  assignment_light,
-  mail,
-  mail_light,
-  favorite,
-  favorite_light,
-  settings,
-  settings_light,
-} from "@/assets";
-
-const tabs = [
-  {
-    id: "today",
-    label: "오늘추억",
-    icon: assignment,
-    activeIcon: assignment_light,
-  },
-  { id: "memory", label: "추억보관함", icon: mail, activeIcon: mail_light },
-  { id: "record", label: "기록", icon: favorite, activeIcon: favorite_light },
-  { id: "setting", label: "설정", icon: settings, activeIcon: settings_light },
-];
+import { tabs, pathToTabIdMap } from "@/utils/navbar";
+import { useRouter, usePathname } from "next/navigation";
 
 export const AppFooter = () => {
-  const [activeTab, setActiveTab] = useState("today");
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const initialTab = useMemo(
+    () => pathToTabIdMap[pathname] || "today",
+    [pathname]
+  );
+  const [activeTab, setActiveTab] = useState(initialTab);
+
+  const handleTabClick = (tabId: string, path: string) => {
+    setActiveTab(tabId);
+    router.push(path);
+  };
 
   return (
     <footer
@@ -38,7 +31,7 @@ export const AppFooter = () => {
         return (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
+            onClick={() => handleTabClick(tab.id, tab.path)}
             className="relative flex flex-col items-center justify-center flex-1 gap-2 py-2 rounded-full"
           >
             {isActive && (
