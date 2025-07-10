@@ -29,7 +29,7 @@ export const AppFooter = () => {
   return (
     <footer
       className="fixed w-[361px] h-[78px]  bottom-8 left-1/2 -translate-x-1/2  max-w-md rounded-full 
-             bg-[#1B1B17] p-0 flex 
+             bg-background p-0 flex 
              shadow-[inset_0_0_100px_0_#FAFAF84A] backdrop-blur-[40px]"
     >
       {tabs.map((tab) => {
@@ -62,7 +62,7 @@ export const AppFooter = () => {
               </div>
               <span
                 className={`text-sm font-medium leading-none ${
-                  isActive ? "text-[#1B1B17]" : "text-[#FFF782]"
+                  isActive ? "text-background" : "text-primary"
                 }`}
               >
                 {tab.label}
