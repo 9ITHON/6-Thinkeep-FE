@@ -35,7 +35,7 @@ const CalendarDayCard = ({
       {emotion && (
         <div className="mt-[6px]">
           <Image
-            src={emotionSmallImageMap[emotion]}
+            src={emotionSmallImageMap[emotion].image}
             alt={`${emotion} icon`}
             width={32}
             height={32}

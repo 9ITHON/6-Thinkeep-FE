@@ -35,6 +35,8 @@ const Calendar = () => {
   };
 
   const router = useRouter();
+  const [selectedEmotion, setSelectedEmotion] =
+    useState<CalendarCardProps["emotion"]>();
 
   return (
     <div className="relative w-full h-screen overflow-hidden">
@@ -106,7 +108,13 @@ const Calendar = () => {
                       disabled={!isThisMonth}
                       onClick={
                         isThisMonth
-                          ? () => router.push(`/calendar/${dateStr}`)
+                          ? () => {
+                              setSelectedEmotion(emotion);
+                              router.push({
+                                pathname: `/calendar/${dateStr}`,
+                                query: { emotion: emotion ?? "" },
+                              });
+                            }
                           : undefined
                       }
                     />
