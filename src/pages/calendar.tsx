@@ -9,9 +9,9 @@ import Image from "next/image";
 import { getCalendarWeeks } from "../utils/Date";
 import { getEmotionByDate } from "../utils/emotionUtils";
 import AppBackground from "@/components/APP/AppBackground";
+import { useRouter } from "next/router";
 
 const Calendar = () => {
-  // 임시 확인용 데이터
   const mockEmotionMap: Record<string, CalendarCardProps["emotion"]> = {
     "2025-07-01": "happy",
     "2025-07-02": "gloomy",
@@ -21,11 +21,12 @@ const Calendar = () => {
 
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isMonthOpen, setIsMonthOpen] = useState(false);
+  const [selectedEmotion, setSelectedEmotion] =
+    useState<CalendarCardProps["emotion"]>();
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth() + 1;
   const selected = format(currentDate, "yyyy.MM");
-
   const weeks = getCalendarWeeks(year, month);
 
   const handleMonthSelect = (monthString: string) => {
@@ -35,8 +36,6 @@ const Calendar = () => {
   };
 
   const router = useRouter();
-  const [selectedEmotion, setSelectedEmotion] =
-    useState<CalendarCardProps["emotion"]>();
 
   return (
     <div className="relative w-full h-screen overflow-hidden">
@@ -86,7 +85,6 @@ const Calendar = () => {
               </div>
 
               {/* 날짜 카드 */}
-
               {weeks.map((week, weekIdx) => (
                 <div
                   key={weekIdx}
@@ -97,6 +95,7 @@ const Calendar = () => {
                     const emotion = isThisMonth
                       ? getEmotionByDate(day, mockEmotionMap)
                       : undefined;
+                    const dateStr = format(day, "yyyy-MM-dd");
 
                     return (
                       <CalendarDayCard
@@ -104,6 +103,17 @@ const Calendar = () => {
                         date={day.getDate()}
                         emotion={emotion}
                         disabled={!isThisMonth}
+                        onClick={
+                          isThisMonth
+                            ? () => {
+                                setSelectedEmotion(emotion);
+                                router.push({
+                                  pathname: `/calendar/${dateStr}`,
+                                  query: { emotion: emotion ?? "" },
+                                });
+                              }
+                            : undefined
+                        }
                       />
                     );
                   })}
