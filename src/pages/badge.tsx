@@ -1,7 +1,8 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import CircleGraph from "@/components/UI/CircleGraph";
 import BadgeCard from "@/components/UI/BadgeCard";
+import BadgePopup from "@/components/UI/BadgePopup";
 import AppBackground from "@/components/APP/AppBackground";
 
 const badgeGoals = [3, 7, 14, 30];
@@ -31,22 +32,18 @@ const getBadgeProgress = (currentDay: number) => {
 const badgeData = [
   {
     image: "/badges/badge_1.png",
-
     message: "기억루틴, 잘 시작하셨어요!",
   },
   {
     image: "/badges/badge_2.png",
-
     message: "매일의 기억이 쌓이고 있어요!",
   },
   {
     image: "/badges/badge_3.png",
-
     message: "이제 추억은 당신의 습관입니다!",
   },
   {
     image: "/badges/badge_4.png",
-
     message: "추억이 쌓여, 당신만의 이야기가 되었어요. 굉장해요!",
   },
 ];
@@ -55,7 +52,6 @@ const BadgePage = () => {
   const currentDay = 7;
   const { current, total, justAchieved, badgeLevel } =
     getBadgeProgress(currentDay);
-
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
@@ -96,6 +92,14 @@ const BadgePage = () => {
           </div>
         </div>
       </AppBackground>
+
+      {showPopup && (
+        <BadgePopup
+          badgeImage={badgeData[badgeLevel].image}
+          badgeMessage={badgeData[badgeLevel].message}
+          onClose={() => setShowPopup(false)}
+        />
+      )}
     </div>
   );
 };
