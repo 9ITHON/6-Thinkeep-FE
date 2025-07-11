@@ -6,6 +6,7 @@ import { emotionSmallImageMap } from '@/utils/emotionSmallMap';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { useSTT } from '@/utils/useSTT'
+import Button from '@/components/UI/Button';
 
 const MemoryPage = () => {
     const { transcript, listening, resetTranscript } = useSTT("ko-KR");  //STT 훅을 사용하여 음성 인식 결과와 상태를 가져옴
@@ -64,6 +65,16 @@ const MemoryPage = () => {
             icon: 'camera.svg',
             iconSize: 228,
             micMessage: '마이크를 눌러 말해보세요',
+        },
+        {
+            id: 4,
+            title: <h2 className='w-full text-xl font-semibold leading-6 tracking-tight text-center text-white'>
+                    오늘 하루가<br />추억되었어요!
+                </h2>,
+            emotion: 'nothing',
+            icon: 'flower.svg',
+            iconSize: 228,
+            micMessage: undefined,
         }
     ]
 
@@ -124,6 +135,11 @@ const MemoryPage = () => {
                                     <p className={`text-center text-sm text-white`}>{value.text}</p>
                                     </div>
                                 ))}
+                        </div>
+                    ) : recordStatus === 4 ? (
+                        <div className='flex flex-col w-full h-auto gap-4 px-6'>
+                            <Button text='기억퀴즈 풀기' onClick={() => {}} className='rounded-[1.25rem] w-full py-4 text-lg font-semibold text-center leading-[1.4375rem] tracking tight bg-primary text-black'></Button>
+                            <Button text='홈으로 나가기' onClick={() => {}} className='rounded-[1.25rem] w-full py-4 text-lg font-semibold text-center leading-[1.4375rem] tracking tight bg-gray3 text-gray2'></Button>
                         </div>
                     ) : (
                             <SpeechInput onClick={handleRecord} />
