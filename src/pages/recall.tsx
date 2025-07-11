@@ -41,7 +41,7 @@ const RecallPage = () => {
                 <HeaderBackward visible={true} />
                 <BarGraph total={2} recorded={recallStatus} />
             </div>
-            <div className='flex flex-col items-center w-full h-full gap-12 pt-4'>
+            <div className='flex flex-col items-center w-full h-full gap-5 pt-4'>
                 <div className='flex flex-row justify-around w-full px-4'>    {/*body*/}
                     <button className='py-2 text-black rounded bg-primary ' onClick={() => handleRecall(recallStatus - 1)}>-1</button>
                     {currentCard && (
@@ -55,10 +55,14 @@ const RecallPage = () => {
                     )}
                     <button className='py-2 text-black rounded bg-primary ' onClick={() => handleRecall(recallStatus + 1)}>+1</button>
                 </div>
-                <div className='flex flex-row w-full h-auto gap-2 px-6'>   {/*footer*/}
-                    <Button text='철수' onClick={() => {}} className='rounded-[1.25rem] w-full py-8 text-[1.375rem] font-semibold text-center leading-[1.875rem] tracking tight bg-primary text-background'></Button>
-                    <Button text='영희' onClick={() => {}} className='rounded-[1.25rem] w-full py-8 text-[1.375rem] font-semibold text-center leading-[1.875rem] tracking tight bg-primary text-background'></Button>
-                    <Button text='돌쇠' onClick={() => {}} className='rounded-[1.25rem] w-full py-8 text-[1.375rem] font-semibold text-center leading-[1.875rem] tracking tight bg-gray2 text-background'></Button>
+                <div className='flex flex-col items-center w-full h-auto gap-6 px-6'>
+                    <p className='pb-20 font-semibold text-white text-[1.125rem] leading-[1.4375rem] tracking-tight underline decoration-solid decoration-auto underline-offset-auto'>모르겠어요. 다음에 할게여!</p>
+                    <div className='flex flex-row w-full h-auto gap-2'>
+                        <Button text='철수' onClick={() => {}} className='rounded-[1.25rem] w-full py-8 text-[1.375rem] font-semibold text-center leading-[1.875rem] tracking-tight bg-primary text-background'></Button>
+                        <Button text='영희' onClick={() => {}} className='rounded-[1.25rem] w-full py-8 text-[1.375rem] font-semibold text-center leading-[1.875rem] tracking-tight bg-primary text-background'></Button>
+                        <Button text='돌쇠' onClick={() => {}} className='rounded-[1.25rem] w-full py-8 text-[1.375rem] font-semibold text-center leading-[1.875rem] tracking-tight bg-gray2 text-background'></Button>
+                    </div>
+                    <Button text='제출하기' onClick={() => {}} className='rounded-[1.25rem] w-full py-5 text-[1.125rem] font-semibold text-center leading-[1.435rem] tracking-tight bg-primary text-background'></Button>
                 </div>
             </div>
         </div>
