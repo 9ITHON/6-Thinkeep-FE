@@ -1,35 +1,28 @@
-import React, { useState } from "react";
+"use client";
+import React, { useMemo, useState } from "react";
 import Image from "next/image";
-import {
-  assignment,
-  assignment_light,
-  mail,
-  mail_light,
-  favorite,
-  favorite_light,
-  settings,
-  settings_light,
-} from "@/assets";
-
-const tabs = [
-  {
-    id: "today",
-    label: "오늘추억",
-    icon: assignment,
-    activeIcon: assignment_light,
-  },
-  { id: "memory", label: "추억보관함", icon: mail, activeIcon: mail_light },
-  { id: "record", label: "기록", icon: favorite, activeIcon: favorite_light },
-  { id: "setting", label: "설정", icon: settings, activeIcon: settings_light },
-];
+import { tabs, pathToTabIdMap } from "@/utils/navbar";
+import { useRouter, usePathname } from "next/navigation";
 
 export const AppFooter = () => {
-  const [activeTab, setActiveTab] = useState("today");
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const initialTab = useMemo(
+    () => pathToTabIdMap[pathname] || "today",
+    [pathname]
+  );
+  const [activeTab, setActiveTab] = useState(initialTab);
+
+  const handleTabClick = (tabId: string, path: string) => {
+    setActiveTab(tabId);
+    router.push(path);
+  };
 
   return (
     <footer
       className="fixed w-[361px] h-[78px]  bottom-8 left-1/2 -translate-x-1/2  max-w-md rounded-full 
-             bg-[#1B1B17] p-0 flex 
+             bg-background p-0 flex 
              shadow-[inset_0_0_100px_0_#FAFAF84A] backdrop-blur-[40px]"
     >
       {tabs.map((tab) => {
@@ -38,7 +31,7 @@ export const AppFooter = () => {
         return (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
+            onClick={() => handleTabClick(tab.id, tab.path)}
             className="relative flex flex-col items-center justify-center flex-1 gap-2 py-2 rounded-full"
           >
             {isActive && (
@@ -62,7 +55,7 @@ export const AppFooter = () => {
               </div>
               <span
                 className={`text-sm font-medium leading-none ${
-                  isActive ? "text-[#1B1B17]" : "text-[#FFF782]"
+                  isActive ? "text-background" : "text-primary"
                 }`}
               >
                 {tab.label}
