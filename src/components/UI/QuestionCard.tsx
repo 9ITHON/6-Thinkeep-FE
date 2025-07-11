@@ -12,7 +12,7 @@ export interface QuestionCardProps {
 };
 
 export const QuestionCard = ({ title, emotion = 'nothing', iconSize, icon, micMessage }: QuestionCardProps) => {
-    const WrapperSize = (micMessage ? 'w-[19rem] h-[30rem]' : 'w-[19rem] h-[22rem]');
+    const WrapperSize = (micMessage ? 'w-[18.75rem] h-[30rem]' : 'w-[18.75rem] h-[21.875rem]');
 
     return (
 
@@ -21,7 +21,7 @@ export const QuestionCard = ({ title, emotion = 'nothing', iconSize, icon, micMe
             {
                 emotion === 'nothing' ? (
                     <>
-                        <div className="flex justify-center w-full items-centers">
+                        <div className="flex justify-center w-full">
                             <Image src={icon!} alt='기분 로딩중' width={iconSize} height={iconSize} />
                         </div>
                         {micMessage ? (
@@ -30,6 +30,7 @@ export const QuestionCard = ({ title, emotion = 'nothing', iconSize, icon, micMe
                             </>
                         ) : (
                             <>
+                                <div className="h-[28px]"></div>    {/* micMessage가 없을 때는 빈 공간을 유지 */}
                             </>
                         )}
                     </>
