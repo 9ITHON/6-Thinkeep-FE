@@ -15,7 +15,7 @@ export const QuestionCard = ({ title, emotion = 'nothing', iconSize, icon, micMe
     const WrapperSize = (micMessage ? 'w-[19rem] h-[30rem]' : 'w-[19rem] h-[22rem]');
 
     return (
-        <div className={`bg-gray1 flex flex-col justify-evenly ${WrapperSize} rounded-2xl`}>
+        <div className={`bg-gray1 flex flex-col justify-evenly px-4 py-7 ${WrapperSize} rounded-2xl`}>
             {title}
             {
                 emotion === 'nothing' ? (
