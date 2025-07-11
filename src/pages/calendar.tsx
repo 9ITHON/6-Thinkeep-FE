@@ -34,6 +34,10 @@ const Calendar = () => {
     setIsMonthOpen(false);
   };
 
+  const router = useRouter();
+  const [selectedEmotion, setSelectedEmotion] =
+    useState<CalendarCardProps["emotion"]>();
+
   return (
     <div className="relative w-full h-screen overflow-hidden">
       <AppBackground backgroundImage="/images/home_background_img.png">
