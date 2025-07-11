@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Toggle from "@/components/UI/Toggle";
 import AppBackground from "@/components/APP/AppBackground";
+import AppFooter from "@/components/APP/AppFooter";
 
 const OptionPage = () => {
   const [isTextBig, setIsTextBig] = useState(false);
@@ -73,6 +74,7 @@ const OptionPage = () => {
                 </div>
               </div>
             </div>
+            <AppFooter />
           </div>
         </AppBackground>
       </div>

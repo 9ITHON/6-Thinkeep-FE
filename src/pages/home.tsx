@@ -1,5 +1,6 @@
 import React from "react";
 import AppBackground from "@/components/APP/AppBackground";
+import AppFooter from "@/components/APP/AppFooter";
 
 const days = ["월", "화", "수", "목", "금", "토", "일"];
 const emotions = [
@@ -58,6 +59,7 @@ const HomePage = () => {
               ))}
             </div>
           </div>
+          <AppFooter />
         </div>
       </AppBackground>
     </div>
