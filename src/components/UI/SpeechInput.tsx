@@ -1,4 +1,4 @@
-import { useSTT } from "@/utils/useSTT";
+import { useSTT } from "@/hooks/useSTT";
 import Button from "./Button";
 import Image from "next/image";
 

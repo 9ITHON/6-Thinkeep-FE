@@ -5,7 +5,7 @@ import SpeechInput from '@/components/UI/SpeechInput';
 import { emotionSmallImageMap } from '@/utils/emotionSmallMap';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import { useSTT } from '@/utils/useSTT'
+import { useSTT } from '@/hooks/useSTT'
 import Button from '@/components/UI/Button';
 
 const MemoryPage = () => {
