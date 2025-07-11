@@ -1,29 +1,69 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import CircleGraph from "@/components/UI/CircleGraph";
 import BadgeCard from "@/components/UI/BadgeCard";
+import BadgePopup from "@/components/UI/BadgePopup";
 
 const badgeGoals = [3, 7, 14, 30];
 
 const getBadgeProgress = (currentDay: number) => {
   let previous = 0;
   for (const goal of badgeGoals) {
-    if (currentDay < goal) {
+    if (currentDay <= goal) {
       return {
-        current: currentDay - previous,
+        current: Math.max(currentDay - previous, 0),
         total: goal - previous,
+        justAchieved: currentDay === goal,
+        badgeLevel: badgeGoals.indexOf(goal),
       };
     }
     previous = goal;
   }
 
-  return { current: 1, total: 1 };
+  return {
+    current: 1,
+    total: 1,
+    justAchieved: false,
+    badgeLevel: badgeGoals.length,
+  };
 };
 
+const badgeData = [
+  {
+    image: "/badges/badge_1.png",
+
+    message: "기억루틴, 잘 시작하셨어요!",
+  },
+  {
+    image: "/badges/badge_2.png",
+
+    message: "매일의 기억이 쌓이고 있어요!",
+  },
+  {
+    image: "/badges/badge_3.png",
+
+    message: "이제 추억은 당신의 습관입니다!",
+  },
+  {
+    image: "/badges/badge_4.png",
+
+    message: "추억이 쌓여, 당신만의 이야기가 되었어요. 굉장해요!",
+  },
+];
+
 const BadgePage = () => {
-  const currentDay = 2;
-  const { current, total } = getBadgeProgress(currentDay);
+  const currentDay = 7;
+  const { current, total, justAchieved, badgeLevel } =
+    getBadgeProgress(currentDay);
+
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    if (justAchieved) {
+      setShowPopup(true);
+    }
+  }, [justAchieved]);
 
   return (
     <div className="w-full h-screen relative">
@@ -31,7 +71,7 @@ const BadgePage = () => {
         src="/images/home_background_img.png"
         alt="배경"
         fill
-        className="object-cover z-0"
+        className="object-cover z-[-1]"
       />
 
       <div className="relative z-10 flex flex-col items-center pt-[70px] h-full text-white gap-6">
@@ -62,6 +102,14 @@ const BadgePage = () => {
           </div>
         </div>
       </div>
+
+      {showPopup && (
+        <BadgePopup
+          badgeImage={badgeData[badgeLevel].image}
+          badgeMessage={badgeData[badgeLevel].message}
+          onClose={() => setShowPopup(false)}
+        />
+      )}
     </div>
   );
 };

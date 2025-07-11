@@ -8,6 +8,7 @@ import Button from "../components/UI/Button";
 import Image from "next/image";
 import { getCalendarWeeks } from "../utils/Date";
 import { getEmotionByDate } from "../utils/emotionUtils";
+import { useRouter } from "next/router";
 
 const Calendar = () => {
   // 임시 확인용 데이터
@@ -32,6 +33,10 @@ const Calendar = () => {
     setCurrentDate(new Date(y, m - 1, 1));
     setIsMonthOpen(false);
   };
+
+  const router = useRouter();
+  const [selectedEmotion, setSelectedEmotion] =
+    useState<CalendarCardProps["emotion"]>();
 
   return (
     <div className="relative w-full h-screen overflow-hidden">
@@ -93,12 +98,25 @@ const Calendar = () => {
                     ? getEmotionByDate(day, mockEmotionMap)
                     : undefined;
 
+                  const dateStr = format(day, "yyyy-MM-dd");
+
                   return (
                     <CalendarDayCard
                       key={day.toISOString()}
                       date={day.getDate()}
                       emotion={emotion}
                       disabled={!isThisMonth}
+                      onClick={
+                        isThisMonth
+                          ? () => {
+                              setSelectedEmotion(emotion);
+                              router.push({
+                                pathname: `/calendar/${dateStr}`,
+                                query: { emotion: emotion ?? "" },
+                              });
+                            }
+                          : undefined
+                      }
                     />
                   );
                 })}
