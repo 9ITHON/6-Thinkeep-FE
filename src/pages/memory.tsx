@@ -5,11 +5,15 @@ import SpeechInput from '@/components/UI/SpeechInput';
 import { emotionSmallImageMap } from '@/utils/emotionSmallMap';
 import Image from 'next/image';
 import React, { useState } from 'react';
+import { useSTT } from '@/utils/useSTT'
 
 const MemoryPage = () => {
+    const { transcript, listening, resetTranscript } = useSTT("ko-KR");  //STT 훅을 사용하여 음성 인식 결과와 상태를 가져옴
+
     const [recordStatus, setRecordStatus] = useState(0);    //0~3 으로 나타낼 cardsection을 기록
     const handleRecordStatusChange = (newStatus: number) => {
         setRecordStatus(newStatus);
+        resetTranscript();
     };
 
     const [userEmotion, setUserEmotion] = useState('nothing');  //감정을 기록, 초기값은 nothing
@@ -54,7 +58,7 @@ const MemoryPage = () => {
         }, {
             id: 3,
             title: <h2 className='w-full text-xl font-semibold leading-6 tracking-tight text-center text-white'>
-                    오늘 하루 중<span className='text-primary'>가장 기억에 남는<br />경험</span>은 무엇인가요?
+                    오늘 하루 중 <span className='text-primary'>가장 기억에 남는<br />경험</span>은 무엇인가요?
                 </h2>,
             emotion: 'nothing',
             icon: 'camera.svg',
@@ -64,6 +68,21 @@ const MemoryPage = () => {
     ]
 
     const currentCard = cardList.find((card) => card.id === recordStatus)   //recordStatus에 해당하는 card를 찾음
+
+    const [response, setResponse] = useState<Record<number, string>>({
+        1: "",
+        2: "",
+        3: "",
+    });     //STT 결과를 저장할 상태
+
+    const handleRecord = () => {
+        if (listening) {
+            setResponse((prev) => ({
+                ...prev,
+                [recordStatus]: transcript,  //현재 상태에 해당하는 STT 결과를 저장
+            }));
+        } 
+    }
 
     return (
         <div className='h-screen bg-background'>
@@ -82,6 +101,7 @@ const MemoryPage = () => {
                             iconSize={currentCard.iconSize}
                             icon={currentCard.icon}
                             micMessage={currentCard.micMessage}
+                            externalValue={response[recordStatus]}  // 현재 상태에 해당하는 STT 결과를 전달
                         />
                     )}
                     <button className='py-2 text-black rounded bg-primary ' onClick={() => handleRecordStatusChange(recordStatus + 1)}>+1</button>
@@ -106,7 +126,7 @@ const MemoryPage = () => {
                                 ))}
                         </div>
                     ) : (
-                            <SpeechInput />
+                            <SpeechInput onClick={handleRecord} />
                     )}
                 </div>
             </div>

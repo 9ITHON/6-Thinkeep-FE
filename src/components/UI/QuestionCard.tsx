@@ -9,9 +9,10 @@ export interface QuestionCardProps {
     iconSize?: number;
     icon?: string;
     micMessage?: string;
+    externalValue?: string; // 외부에서 전달받는 값
 };
 
-export const QuestionCard = ({ title, emotion = 'nothing', iconSize, icon, micMessage }: QuestionCardProps) => {
+export const QuestionCard = ({ title, emotion = 'nothing', iconSize, icon, micMessage, externalValue = '' }: QuestionCardProps) => {
     const WrapperSize = (micMessage ? 'w-[18.75rem] h-[30rem]' : 'w-[18.75rem] h-[21.875rem]');
 
     return (
@@ -26,7 +27,7 @@ export const QuestionCard = ({ title, emotion = 'nothing', iconSize, icon, micMe
                         </div>
                         {micMessage ? (
                             <>
-                                <CustomInput  externalValue="" placeholder="마이크를 눌러 말해보세요"  />
+                                <CustomInput  externalValue={externalValue} placeholder="마이크를 눌러 말해보세요"  />
                             </>
                         ) : (
                             <>
