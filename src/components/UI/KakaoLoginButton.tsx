@@ -6,7 +6,7 @@ const KakaoLoginButton = () => {
   const handleLogin = async () => {
     await signIn("kakao", {
       redirect: true,
-      callbackUrl: "https://localhost:3000/home",
+      callbackUrl: "http://localhost:3000/home",
     });
     console.log("카카오 로그인 시도");
   };
