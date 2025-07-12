@@ -102,12 +102,18 @@ const RecallPage = () => {
         <div className="flex flex-col items-center w-full h-auto gap-6 px-6">
           <p
             onClick={() => {
-              setResponse((prev) => ({
-                ...prev,
+              const updatedResponse = {
+                ...response,
                 [recallStatus]: "",
-              }));
-              if (recallStatus < 1) {
+              };
+
+              setResponse(updatedResponse);
+
+              if (recallStatus < cardList.length - 1) {
                 setRecallStatus(recallStatus + 1);
+              } else {
+                // 마지막에서 '모르겠어요' 클릭 시 finish2로
+                router.push("/finish2");
               }
             }}
             className="cursor-pointer pb-20 font-semibold text-white text-[1.125rem] leading-[1.4375rem] tracking-tight underline decoration-solid decoration-auto underline-offset-auto"
@@ -134,7 +140,23 @@ const RecallPage = () => {
           <Button
             text="제출하기"
             onClick={() => {
-              console.log("제출 데이터:", response);
+              if (recallStatus === 0) {
+                // 그냥 다음 질문으로 이동
+                setRecallStatus(1);
+                return;
+              }
+
+              // recallStatus === 1일 때만 전체 응답 검사
+              const hasEmpty = Object.values(response).some((v) => v === "");
+              if (hasEmpty) {
+                router.push("/finish2");
+              } else {
+                router.push(
+                  `/finish?answer0=${encodeURIComponent(
+                    response[0]
+                  )}&answer1=${encodeURIComponent(response[1])}`
+                );
+              }
             }}
             className={`rounded-[1.25rem] w-full py-5 text-[1.125rem] font-semibold text-center leading-[1.435rem] tracking-tight 
     ${
