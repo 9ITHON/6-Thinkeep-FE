@@ -1,5 +1,7 @@
 import React from "react";
 import AppBackground from "@/components/APP/AppBackground";
+import AppFooter from "@/components/APP/AppFooter";
+import { useRouter } from "next/navigation";
 
 const days = ["월", "화", "수", "목", "금", "토", "일"];
 const emotions = [
@@ -13,6 +15,8 @@ const emotions = [
 ];
 
 const HomePage = () => {
+  const router = useRouter();
+
   return (
     <div className="relative h-screen w-full overflow-hidden font-[var(--font-family)] text-white">
       <AppBackground backgroundImage="/images/home_background_img.png">
@@ -26,7 +30,10 @@ const HomePage = () => {
           </div>
 
           <div className="flex justify-center">
-            <button className="w-[230px] h-[230px] bg-primary text-black rounded-full text-[32px] font-semibold shadow-yellow leading-[26px]">
+            <button
+              onClick={() => router.push("/memory")}
+              className="w-[230px] h-[230px] bg-primary text-black rounded-full text-[32px] font-semibold shadow-yellow leading-[26px]"
+            >
               추억하기
             </button>
           </div>
@@ -58,6 +65,7 @@ const HomePage = () => {
               ))}
             </div>
           </div>
+          <AppFooter />
         </div>
       </AppBackground>
     </div>

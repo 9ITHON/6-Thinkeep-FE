@@ -4,6 +4,7 @@ import CircleGraph from "@/components/UI/CircleGraph";
 import BadgeCard from "@/components/UI/BadgeCard";
 import BadgePopup from "@/components/UI/BadgePopup";
 import AppBackground from "@/components/APP/AppBackground";
+import AppFooter from "@/components/APP/AppFooter";
 
 const badgeGoals = [3, 7, 14, 30];
 
@@ -100,6 +101,7 @@ const BadgePage = () => {
           onClose={() => setShowPopup(false)}
         />
       )}
+      <AppFooter />
     </div>
   );
 };

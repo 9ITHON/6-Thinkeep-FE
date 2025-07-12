@@ -10,6 +10,7 @@ import { getCalendarWeeks } from "../utils/Date";
 import { getEmotionByDate } from "../utils/emotionUtils";
 import AppBackground from "@/components/APP/AppBackground";
 import { useRouter } from "next/router";
+import AppFooter from "@/components/APP/AppFooter";
 
 const Calendar = () => {
   const mockEmotionMap: Record<string, CalendarCardProps["emotion"]> = {
@@ -121,6 +122,7 @@ const Calendar = () => {
               ))}
             </div>
           </div>
+          <AppFooter />
         </div>
       </AppBackground>
     </div>
