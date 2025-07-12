@@ -1,41 +1,30 @@
-import {
-  assignment,
-  assignment_light,
-  mail,
-  mail_light,
-  favorite,
-  favorite_light,
-  settings,
-  settings_light,
-} from "@/assets";
-
 export const tabs = [
   {
     id: "today",
     label: "오늘추억",
-    icon: assignment,
-    activeIcon: assignment_light,
+    icon: "/icons/assignment.svg",
+    activeIcon: "/icons/assignment_light.svg",
     path: "/home",
   },
   {
     id: "memory",
     label: "추억보관함",
-    icon: mail,
-    activeIcon: mail_light,
+    icon: "/icons/mail.svg",
+    activeIcon: "/icons/mail_light.svg",
     path: "/calendar",
   },
   {
     id: "record",
     label: "기록",
-    icon: favorite,
-    activeIcon: favorite_light,
+    icon: "/icons/favorite.svg",
+    activeIcon: "/icons/favorite_light.svg",
     path: "/badge",
   },
   {
     id: "setting",
     label: "설정",
-    icon: settings,
-    activeIcon: settings_light,
+    icon: "/icons/settings.svg",
+    activeIcon: "/icons/settings_light.svg",
     path: "/option",
   },
 ];
