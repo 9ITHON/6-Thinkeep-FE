@@ -40,19 +40,6 @@ const RecallPage = () => {
       iconSize: 228,
       micMessage: undefined,
     },
-    {
-      id: 2,
-      title: (
-        <h2 className="w-full text-xl font-semibold leading-6 tracking-tight text-center text-white">
-          <span className="text-primary">7월 13일</span>을 <br />
-          추억했어요!{" "}
-        </h2>
-      ),
-      emotion: "nothing",
-      icon: "flower.svg",
-      iconSize: 228,
-      micMessage: undefined,
-    },
   ];
 
   const currentCard = cardList.find((card) => card.id === recallStatus); //recordStatus에 해당하는 card를 찾음
@@ -100,7 +87,7 @@ const RecallPage = () => {
             />
           )}
 
-          {recallStatus === 2 ? (
+          {recallStatus === 1 ? (
             <div className="w-[48px]"></div>
           ) : (
             <Image
@@ -119,7 +106,7 @@ const RecallPage = () => {
                 ...prev,
                 [recallStatus]: "",
               }));
-              if (recallStatus < 2) {
+              if (recallStatus < 1) {
                 setRecallStatus(recallStatus + 1);
               }
             }}
