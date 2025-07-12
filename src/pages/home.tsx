@@ -1,7 +1,9 @@
+'use client';
 import React from "react";
 import AppBackground from "@/components/APP/AppBackground";
 import AppFooter from "@/components/APP/AppFooter";
 import { useRouter } from "next/navigation";
+import { useCounterStore } from "@/providers/counter-store-provider";
 
 const days = ["월", "화", "수", "목", "금", "토", "일"];
 const emotions = [
@@ -16,6 +18,8 @@ const emotions = [
 
 const HomePage = () => {
   const router = useRouter();
+  const { userNo } = useCounterStore((state) => state);
+  console.log("현재 사용자 번호:", userNo);
 
   return (
     <div className="relative h-screen w-full overflow-hidden font-[var(--font-family)] text-white">
@@ -23,7 +27,7 @@ const HomePage = () => {
         <div className="relative z-10 flex flex-col justify-between h-full px-6 pb-[130px] text-center">
           <div className="pt-[115px]">
             <p className="text-[32px] leading-[40px]  font-semibold text-primary tracking-[-0.02em]">
-              오늘 당신의 하루는
+              오늘 당신의 하루는 {userNo}<br />
               <br />
               어땠나요?
             </p>
