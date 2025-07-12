@@ -130,6 +130,19 @@ const MemoryPage = () => {
     }
   };
 
+  // 감정 값 매핑 함수
+  const mapEmotionToKorean = (emotion: string): string => {
+    const emotionMap: Record<string, string> = {
+      happy: "행복",
+      good: "기쁨", 
+      soso: "보통",
+      gloomy: "우울",
+      sad: "슬픔",
+      angry: "화남",
+    };
+    return emotionMap[emotion] || emotion;
+  };
+
   // 일기 보내기 공통 함수
   const sendDiaryToBackend = async () => {
     if (!userNo) {
@@ -142,15 +155,35 @@ const MemoryPage = () => {
       return;
     }
 
+    // 모든 답변이 완료되었는지 확인
+    const q2Answer = response[1] || "";
+    const q3Answer = response[2] || "";
+    const q4Answer = response[3] || "";
+
+    if (!q2Answer.trim()) {
+      alert("오늘 누구와 시간을 보냈는지 답변해주세요.");
+      return;
+    }
+
+    if (!q3Answer.trim()) {
+      alert("오늘 먹은 음식 중 가장 인상 깊었던 것을 답변해주세요.");
+      return;
+    }
+
+    if (!q4Answer.trim()) {
+      alert("오늘 꼭 기억하고 싶은 순간을 답변해주세요.");
+      return;
+    }
+
     try {
       const diaryData = {
-        answer: {
-          additionalProp1: response[1] || "",
-          additionalProp2: response[2] || "",
-          additionalProp3: response[3] || "",
+        answers: {
+          Q1: mapEmotionToKorean(userEmotion), // 첫 번째 질문(감정)에 대한 답변
+          Q2: q2Answer, // 오늘 누구와 시간을 보냈나요?
+          Q3: q3Answer, // 오늘 먹은 음식 중 가장 인상 깊었던 건 무엇인가요?
+          Q4: q4Answer, // 오늘 꼭 기억하고 싶은 순간은 무엇인가요?
         },
-        emotion: userEmotion,
-        valid: true,
+        emotion: mapEmotionToKorean(userEmotion), // 별도 감정 필드
       };
 
       console.log("일기 데이터 전송:", diaryData);

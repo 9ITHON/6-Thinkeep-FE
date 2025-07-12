@@ -30,7 +30,7 @@ const HomePage = () => {
         const data = await res.json();
         setHasTodayRecord(data.hasRecord);
       } catch (e) {
-        setHasTodayRecord(null);
+        setHasTodayRecord(e);
       }
     };
     if (userNo) fetchTodayStatus();
