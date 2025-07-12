@@ -9,10 +9,12 @@ import { useSTT } from "@/hooks/useSTT";
 import Button from "@/components/UI/Button";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { useCounterStore } from "@/providers/counter-store-provider";
 
 const MemoryPage = () => {
   const router = useRouter();
-  const { transcript, listening, resetTranscript } = useSTT("ko-KR"); //STT 훅을 사용하여 음성 인식 결과와 상태를 가져옴
+  const { userNo } = useCounterStore((state) => state);
+  const { transcript, listening, resetTranscript, error, isSupported } = useSTT("ko-KR"); //STT 훅을 사용하여 음성 인식 결과와 상태를 가져옴
 
   const [recordStatus, setRecordStatus] = useState(0); //0~3 으로 나타낼 cardsection을 기록
   const handleRecordStatusChange = (newStatus: number) => {
@@ -109,52 +111,77 @@ const MemoryPage = () => {
   }); //STT 결과를 저장할 상태
 
   const handleRecord = () => {
+    if (!isSupported) {
+      alert("브라우저가 음성 인식을 지원하지 않습니다. Chrome 브라우저를 사용해주세요.");
+      return;
+    }
+
+    if (error) {
+      alert(`음성 인식 오류: ${error}`);
+      return;
+    }
+
     if (listening) {
       setResponse((prev) => ({
         ...prev,
         [recordStatus]: transcript, //현재 상태에 해당하는 STT 결과를 저장
       }));
+      console.log(`단계 ${recordStatus} 답변 저장:`, transcript);
+    }
+  };
+
+  // 일기 보내기 공통 함수
+  const sendDiaryToBackend = async () => {
+    if (!userNo) {
+      alert("사용자 정보가 없습니다. 다시 로그인해주세요.");
+      return;
+    }
+
+    if (userEmotion === "nothing") {
+      alert("감정을 선택해주세요.");
+      return;
+    }
+
+    try {
+      const diaryData = {
+        answer: {
+          additionalProp1: response[1] || "",
+          additionalProp2: response[2] || "",
+          additionalProp3: response[3] || "",
+        },
+        emotion: userEmotion,
+        valid: true,
+      };
+
+      console.log("일기 데이터 전송:", diaryData);
+      
+      const res = await axios.post(
+        `http://13.209.69.235:8080/api/records?userNo=${userNo}`,
+        diaryData
+      );
+      
+      console.log("백엔드 전송 성공:", res.data);
+      return true;
+    } catch (err) {
+      console.log("백엔드 전송 실패", err);
+      alert("일기 저장에 실패했습니다. 다시 시도해주세요.");
+      return false;
     }
   };
 
   const handleGoHomeButtonClick = async () => {
-    router.push("/home");
+    const success = await sendDiaryToBackend();
+    if (success) {
+      router.push("/home");
+    }
+  };
 
-    try {
-          await axios.post('http://13.209.69.235:8080/api/api/records', {
-            answer : {
-              additionalProp1: response[1],
-              additionalProp2: response[2],
-              additionalProp3: response[3],
-            },
-            emotion: userEmotion,
-            valid: true,
-        })
-          console.log("백엔드 전송 성공")
-        } catch (err) {
-          console.log("백엔드 전송 실패", err)
-        }
-  }
-
-   const handleGoRecallButtonClick = async () => {
-    router.push("/recall");
-    
-    try {
-          await axios.post('http://13.209.69.235:8080/api/records', {
-            answer : {
-              emotion: userEmotion,
-              additionalProp1: response[1],
-              additionalProp2: response[2],
-              additionalProp3: response[3],
-            },
-            emotion: userEmotion,
-            valid: true,
-        })
-          console.log("백엔드 전송 성공")
-        } catch (err) {
-          console.log("백엔드 전송 실패", err)
-        }
-  }
+  const handleGoRecallButtonClick = async () => {
+    const success = await sendDiaryToBackend();
+    if (success) {
+      router.push("/recall");
+    }
+  };
 
   return (
     <div className="h-screen overflow-hidden bg-background">

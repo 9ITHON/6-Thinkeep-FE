@@ -1,5 +1,5 @@
 'use client';
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AppBackground from "@/components/APP/AppBackground";
 import AppFooter from "@/components/APP/AppFooter";
 import { useRouter } from "next/navigation";
@@ -19,6 +19,23 @@ const emotions = [
 const HomePage = () => {
   const router = useRouter();
   const { userNo } = useCounterStore((state) => state);
+  const [hasTodayRecord, setHasTodayRecord] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const fetchTodayStatus = async () => {
+      try {
+        const res = await fetch(
+          `http://13.209.69.235:8080/api/records/today?userNo=${userNo}`
+        );
+        const data = await res.json();
+        setHasTodayRecord(data.hasRecord);
+      } catch (e) {
+        setHasTodayRecord(null);
+      }
+    };
+    if (userNo) fetchTodayStatus();
+  }, [userNo]);
+
   console.log("현재 사용자 번호:", userNo);
 
   return (
@@ -31,12 +48,19 @@ const HomePage = () => {
               <br />
               어땠나요?
             </p>
+            {hasTodayRecord === true && (
+              <p className="text-[18px] text-blue mt-2">오늘 일기를 이미 작성하셨습니다!</p>
+            )}
+            {hasTodayRecord === false && (
+              <p className="text-[18px] text-primary mt-2">오늘 일기를 아직 작성하지 않았어요!</p>
+            )}
           </div>
 
           <div className="flex justify-center">
             <button
               onClick={() => router.push("/memory")}
               className="w-[230px] h-[230px] bg-primary text-black rounded-full text-[32px] font-semibold shadow-yellow leading-[26px]"
+              disabled={hasTodayRecord === true}
             >
               추억하기
             </button>
