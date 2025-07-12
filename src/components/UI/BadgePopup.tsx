@@ -1,30 +1,31 @@
 "use client";
 import React from "react";
 import Image from "next/image";
+import { badgeImageMap } from "@/utils/badgeImageMap";
 
 interface BadgePopupProps {
-  badgeImage: string;
-
-  badgeMessage: string;
+  badgeId: number;
   onClose: () => void;
 }
 
-const BadgePopup = ({
-  badgeImage,
+const BadgePopup = ({ badgeId, onClose }: BadgePopupProps) => {
+  const badge = badgeImageMap[badgeId];
 
-  badgeMessage,
-  onClose,
-}: BadgePopupProps) => {
+  // 잘못된 badgeId가 들어왔을 경우 방어 처리
+  if (!badge) return null;
+
+  const { image, message } = badge;
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="w-[300px] h-[350px] bg-gray1 gap-10 rounded-[25px] p-6 flex flex-col items-center justify-center text-white">
+      <div className="w-[300px] h-[350px] bg-gray1 rounded-[25px] p-6 flex flex-col items-center justify-center gap-6 text-white">
         {/* 뱃지 아이콘 */}
-        <div className={`flex flex-col items-center justify-center rounded-xl`}>
-          <Image src={badgeImage} alt="badge" width={148} height={95} />
+        <div className="flex flex-col items-center justify-center rounded-xl">
+          <Image src={image} alt={`badge_${badgeId}`} width={148} height={95} />
         </div>
 
         {/* 메시지 */}
-        <p className="text-center text-[16px] ">{badgeMessage}</p>
+        <p className="text-center text-[16px]">{message}</p>
 
         {/* 확인 버튼 */}
         <button
