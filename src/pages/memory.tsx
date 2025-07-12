@@ -121,13 +121,14 @@ const MemoryPage = () => {
     router.push("/home");
 
     try {
-          await axios.post('http://13.209.69.235:8080/api/', {
+          await axios.post('http://13.209.69.235:8080/api/api/records', {
             answer : {
-              emotion: userEmotion,
               additionalProp1: response[1],
               additionalProp2: response[2],
               additionalProp3: response[3],
-            }
+            },
+            emotion: userEmotion,
+            valid: true,
         })
           console.log("백엔드 전송 성공")
         } catch (err) {
@@ -139,13 +140,15 @@ const MemoryPage = () => {
     router.push("/recall");
     
     try {
-          await axios.post('http://13.209.69.235:8080/api/', {
+          await axios.post('http://13.209.69.235:8080/api/records', {
             answer : {
               emotion: userEmotion,
               additionalProp1: response[1],
               additionalProp2: response[2],
               additionalProp3: response[3],
-            }
+            },
+            emotion: userEmotion,
+            valid: true,
         })
           console.log("백엔드 전송 성공")
         } catch (err) {
