@@ -5,6 +5,8 @@ import BadgeCard from "@/components/UI/BadgeCard";
 import BadgePopup from "@/components/UI/BadgePopup";
 import AppBackground from "@/components/APP/AppBackground";
 import AppFooter from "@/components/APP/AppFooter";
+import axios from "axios";
+import { useCounterStore } from "@/providers/counter-store-provider";
 
 const badgeGoals = [3, 7, 14, 30];
 
@@ -50,9 +52,25 @@ const badgeData = [
 ];
 
 const BadgePage = () => {
-  const currentDay = 13;
+  const { userNo } = useCounterStore((state) => state);
+  const [badgeDay, setBadgeDay] = useState(13);
+
+  useEffect(() => {
+    const fetchDay = async () => {
+      try {
+        const res = await axios.get(`http://13.209.69.235:8080/api/${userNo}/streak?userNo=${userNo}`);
+        setBadgeDay(res.data.streakCount);
+      
+      } catch (err) {
+        console.error("백엔드에서 뱃지 데이터를 가져오는 데 실패했습니다:", err);
+      }
+    };
+
+    fetchDay();
+  }, [userNo]);  
+
   const { current, total, justAchieved, badgeLevel } =
-    getBadgeProgress(currentDay);
+    getBadgeProgress(badgeDay);
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
@@ -62,7 +80,7 @@ const BadgePage = () => {
   }, [justAchieved]);
 
   return (
-    <div className="w-full h-screen relative">
+    <div className="relative w-full h-screen">
       <AppBackground backgroundImage="/images/home_background_img.png">
         <div className="relative z-10 flex flex-col items-center pt-[70px] h-full text-white gap-6">
           <p className="font-semibold text-[32px]">현재 연속 기록</p>
@@ -70,7 +88,7 @@ const BadgePage = () => {
           <CircleGraph
             currentDay={current}
             badgeDay={total}
-            textDay={currentDay}
+            textDay={badgeDay}
           />
 
           <p className="font-semibold text-[16px] pb-5">
@@ -81,12 +99,12 @@ const BadgePage = () => {
             <p className="text-[20px] font-semibold text-white leading-[26px] pl-3">
               000님의 뱃지
             </p>
-            <div className="flex flex-wrap gap-3 justify-center items-center">
+            <div className="flex flex-wrap items-center justify-center gap-3">
               {badgeGoals.map((goal, idx) => (
                 <BadgeCard
                   key={idx}
                   badgeId={idx + 1}
-                  achieved={currentDay >= goal}
+                  achieved={badgeDay >= goal}
                 />
               ))}
             </div>

@@ -14,7 +14,7 @@ export type CounterActions = {
 export type CounterStore = CounterState & CounterActions
 
 export const initCounterStore = (): CounterState => {
-  return { userNo: new Date().getFullYear() }
+  return { userNo: 62 }
 }
 
 export const defaultInitState: CounterState = {

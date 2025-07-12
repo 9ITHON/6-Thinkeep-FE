@@ -1,3 +1,4 @@
+import { userApi } from "@/utils/Api/userApi";
 import BarGraph from "@/components/UI/BarGraph";
 import { HeaderBackward } from "@/components/UI/HeaderBacward";
 import QuestionCard from "@/components/UI/QuestionCard";
@@ -192,12 +193,22 @@ const MemoryPage = () => {
         `http://13.209.69.235:8080/api/records?userNo=${userNo}`,
         diaryData
       );
+
+      try {
+        const streakResponse = await userApi.increaseStreak(userNo);
+        console.log("스트릭 증가 성공:", streakResponse);
+      } catch (streakErr) {
+        console.log("스트릭 증가 실패:", streakErr);
+        // 스트릭 증가 실패는 일기 저장을 막지 않음
+      }
       
       console.log("백엔드 전송 성공:", res.data);
+      
       return true;
     } catch (err) {
       console.log("백엔드 전송 실패", err);
       alert("일기 저장에 실패했습니다. 다시 시도해주세요.");
+      
       return false;
     }
   };
