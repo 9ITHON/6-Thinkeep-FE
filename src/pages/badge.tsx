@@ -5,8 +5,16 @@ import BadgeCard from "@/components/UI/BadgeCard";
 import BadgePopup from "@/components/UI/BadgePopup";
 import AppBackground from "@/components/APP/AppBackground";
 import AppFooter from "@/components/APP/AppFooter";
+import axios from "axios";
 
 const badgeGoals = [3, 7, 14, 30];
+
+try {
+  const myBadge = await axios.get("http://13.209.69.235:8080/api/badges");
+  console.log("Badge data fetched successfully:", myBadge.data);
+} catch (err) {
+  console.error("Failed to fetch badge data:", err);
+}
 
 const getBadgeProgress = (currentDay: number) => {
   let previous = 0;
