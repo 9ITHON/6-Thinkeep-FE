@@ -1,3 +1,4 @@
+import axios from 'axios';
 import NextAuth from 'next-auth';
 import type { NextAuthOptions } from 'next-auth';
 import KakaoProvider from 'next-auth/providers/kakao';
@@ -30,6 +31,23 @@ export const authOptions: NextAuthOptions = {
                 // 아래 코드 같은 경우 name을 받을 수 있음
                 token.name = user.name
             }
+
+            const kakaoId = token.sub;
+            const nickname = token.name;
+            const profileImage = token.picture
+
+            try {
+                await axios.post('http://13.209.69.235:8080/api/auth/kakao-login', {
+                    kakaoId: kakaoId,
+                    nickname: nickname,
+                    profileImage: profileImage,
+                    valid: true,
+                })
+                console.log("백엔드 전송 성공")
+            } catch (err) {
+                console.log("백엔드 전송 실패", err)
+            }
+
             return token;
         },
         async session({ session, token }) {
