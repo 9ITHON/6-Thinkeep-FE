@@ -50,7 +50,7 @@ const badgeData = [
 ];
 
 const BadgePage = () => {
-  const currentDay = 14;
+  const currentDay = 13;
   const { current, total, justAchieved, badgeLevel } =
     getBadgeProgress(currentDay);
   const [showPopup, setShowPopup] = useState(false);

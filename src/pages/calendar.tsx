@@ -68,7 +68,7 @@ const Calendar = () => {
 
             <div className="flex flex-col w-full items-center flex-1 rounded-t-[32px] bg-background mt-2">
               {/* 요일 헤더 */}
-              <div className="grid grid-cols-7 w-full text-[18px] font-semibold tracking-[-0.02em] text-white mt-3">
+              <div className="grid grid-cols-7 w-full text-[20px] font-semibold tracking-[-0.02em] text-white mt-3">
                 {["일", "월", "화", "수", "목", "금", "토"].map((day, idx) => (
                   <div
                     key={day}

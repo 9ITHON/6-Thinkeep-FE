@@ -38,7 +38,7 @@ const CalendarDetailPage = () => {
             height={80}
           />
           <div
-            className={`mt-3 text-[18px] font-semibold ${
+            className={`mt-3 text-[20px] font-semibold ${
               emotionSmallImageMap[selectedEmotion]?.color ?? "text-white"
             }`}
           >

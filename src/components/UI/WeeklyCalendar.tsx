@@ -38,7 +38,7 @@ const WeeklyCalendar = ({
       </div>
 
       {/* 요일 및 날짜 */}
-      <div className="grid grid-cols-7 text-[18px] font-semibold">
+      <div className="grid grid-cols-7 text-[20px] font-semibold">
         {dayLabels.map((label, i) => (
           <div
             key={label}
@@ -51,7 +51,7 @@ const WeeklyCalendar = ({
         ))}
       </div>
 
-      <div className="grid grid-cols-7 mt-2 text-[18px] mb-3 pb-3 border-b-[0.2px] border-gray2">
+      <div className="grid grid-cols-7 mt-2 text-[20px] mb-3 pb-3 border-b-[0.2px] border-gray2">
         {weekDays.map((day, index) => {
           const isSelected =
             format(day, "yyyy-MM-dd") === format(selectedDate, "yyyy-MM-dd");
