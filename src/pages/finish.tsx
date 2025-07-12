@@ -1,8 +1,8 @@
 import AppBackground from "@/components/APP/AppBackground";
 import Button from "@/components/UI/Button";
 import { HeaderBackward } from "@/components/UI/HeaderBacward";
-import Image from "next/image";
 import Router from "next/router";
+import LottieContainer from "@/components/UI/Lottie";
 
 const FinishPage = () => {
   const router = Router;
@@ -14,13 +14,15 @@ const FinishPage = () => {
         <HeaderBackward visible={true} />
       </div>
       <div className="flex flex-col items-center w-full h-full gap-2 px-6 pt-20">
-        <Image src="flower.svg" alt="Finish Image" width={228} height={300} />
+        <div className="w-[228px] h-[300px]">
+          <LottieContainer path="/lottie/finish.json" />
+        </div>
         <p className="text-[2rem]/[2.5rem] font-semibold tracking-[-0.04rem] text-white">
           6월 30일을
           <br />
           추억했어요!
         </p>
-        <p className="pb-12 text-white font-normal text-[1.25rem]/[1.6875rem] tracking-tight">
+        <p className="pb-25 text-white font-normal text-[1.25rem]/[1.6875rem] tracking-tight">
           오늘도 하루를 떠올려주셔서 감사해요
         </p>
         <Button
