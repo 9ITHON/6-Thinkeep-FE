@@ -32,18 +32,17 @@
 # 2. Directory Architecture
 
 - public : 이미지 및 asset 공통 폴더
-- axios :  API 연동 및 파일
-- assets : 에셋 파일
 - components : page 디렉토리의 각 페이지를 구성하는 개별 컴포넌트 작성
     - APP : 프로젝트 전반을 구성하는 Layout을 AppHeader, AppFooter로 나누어서 각 영역별 컴포넌트 작성
     - Provider : 인증관리
     - UI : 모든 Domain 컴포넌트에서 쓸 수 있는 공통 UI와 관련된 컴포넌트 작성
 - hooks : 기능 컴포넌트 및 함수 정의
 - pages : Next.js 의 라우팅 방식에 따라 실제 url에 따라 보여질 Page 컴포넌트 작성
-- styles : 스타일링 설정
+- styles : 전역 스타일링 설정
 - states : 상태관리 시스템
-- util : 프로젝트 전반에서 쓰일 수 있는 공통된 함수, 클래스 등을 작성. 생성되는 각 파일은 해당 파일 내부에서 관리할 유틸리티 구현체의 성질에 따라 이름을 결정
-
+- types : 타입 관리
+- utils : 프로젝트 전반에서 쓰일 수 있는 공통된 함수, 클래스 등을 작성. 생성되는 각 파일은 해당 파일 내부에서 관리할 유틸리티 구현체의 성질에 따라 이름을 결정
+    - Api :  API 연동 및 파일
 ---
 
 # 3. Code Convention
