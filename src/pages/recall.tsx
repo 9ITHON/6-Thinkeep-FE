@@ -1,9 +1,9 @@
 import axios from "axios";
-import BarGraph from '@/components/UI/BarGraph';
-import Button from '@/components/UI/Button';
-import { HeaderBackward } from '@/components/UI/HeaderBacward';
-import QuestionCard from '@/components/UI/QuestionCard';
-import React, { useState, useEffect } from 'react';
+import BarGraph from "@/components/UI/BarGraph";
+import Button from "@/components/UI/Button";
+import { HeaderBackward } from "@/components/UI/HeaderBacward";
+import QuestionCard from "@/components/UI/QuestionCard";
+import React, { useState, useEffect } from "react";
 import { useCounterStore } from "@/providers/counter-store-provider";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -11,64 +11,70 @@ import { useRouter } from "next/navigation";
 const RecallPage = () => {
   const router = useRouter();
   const [recallStatus, setRecallStatus] = useState<number>(0);
+  const [records, setRecords] = useState<any[]>([]);
+  const { userNo } = useCounterStore((state) => state);
+
+  useEffect(() => {
+    const fetchRecords = async () => {
+      try {
+        const res = await axios.get(
+          `http://13.209.69.235:8080/api/records/user/${userNo}/all`
+        );
+        setRecords(res.data);
+      } catch (e) {
+        setRecords([]);
+      }
+    };
+    if (userNo) fetchRecords();
+  }, [userNo]);
+
   const handleRecall = (status: number) => {
     setRecallStatus(status);
   };
-    const [records, setRecords] = useState<any[]>([]);
-    const { userNo } = useCounterStore((state) => state);
 
-    useEffect(() => {
-        const fetchRecords = async () => {
-            try {
-                const res = await axios.get(`http://13.209.69.235:8080/api/records/user/${userNo}/all`);
-                setRecords(res.data);
-            } catch (e) {
-                setRecords([]);
-            }
-        };
-        if (userNo) fetchRecords();
-    }, [userNo]);
+  const handleDelete = async (recordId: number) => {
+    try {
+      await axios.delete(
+        `http://13.209.69.235:8080/api/records/${recordId}?userNo=${userNo}`
+      );
+      setRecords((prev) => prev.filter((rec) => rec.recordId !== recordId));
+    } catch (e) {
+      alert("삭제 실패");
+    }
+  };
+  const handleEdit = (recordId: number) => {
+    // TODO: 수정 모달/페이지로 이동 또는 구현
+    alert(`수정 기능은 추후 구현 예정. recordId: ${recordId}`);
+  };
 
-    const handleRecall = (status: number) => {
-        setRecallStatus(status);
-    };
-
-    const handleDelete = async (recordId: number) => {
-        try {
-            await axios.delete(`http://13.209.69.235:8080/api/records/${recordId}?userNo=${userNo}`);
-            setRecords((prev) => prev.filter((rec) => rec.recordId !== recordId));
-        } catch (e) {
-            alert("삭제 실패");
-        }
-    };
-    const handleEdit = (recordId: number) => {
-        // TODO: 수정 모달/페이지로 이동 또는 구현
-        alert(`수정 기능은 추후 구현 예정. recordId: ${recordId}`);
-    };
-
-    const cardList = [
-        {
-            id: 0,
-            title: <h2 className='w-full text-xl font-semibold leading-6 tracking-tight text-center text-white'>
-                    오늘 기분이 어때요?
-                </h2>,
-            emotion: 'nothing',
-            icon: 'flower.svg',
-            iconSize: 228,
-            micMessage: undefined,
-        },
-        {
-            id: 1,
-            title: <h2 className='w-full text-xl font-semibold leading-6 tracking-tight text-center text-white'>
-                    오늘 <span className='text-primary'>누구</span>와 함께<br />시간을 보냈나요?
-                </h2>,
-            emotion: 'nothing',
-            icon: 'flower.svg',
-            iconSize: 228,
-            micMessage: undefined,
-        },
-    ]
-
+  const cardList = [
+    {
+      id: 0,
+      title: (
+        <h2 className="w-full text-xl font-semibold leading-6 tracking-tight text-center text-white">
+          오늘 기분이 어때요?
+        </h2>
+      ),
+      emotion: "nothing",
+      icon: "flower.svg",
+      iconSize: 228,
+      micMessage: undefined,
+    },
+    {
+      id: 1,
+      title: (
+        <h2 className="w-full text-xl font-semibold leading-6 tracking-tight text-center text-white">
+          오늘 <span className="text-primary">누구</span>와 함께
+          <br />
+          시간을 보냈나요?
+        </h2>
+      ),
+      emotion: "nothing",
+      icon: "flower.svg",
+      iconSize: 228,
+      micMessage: undefined,
+    },
+  ];
 
   const currentCard = cardList.find((card) => card.id === recallStatus); //recordStatus에 해당하는 card를 찾음
 
