@@ -24,6 +24,8 @@ const Calendar = () => {
   const [isMonthOpen, setIsMonthOpen] = useState(false);
   const [selectedEmotion, setSelectedEmotion] =
     useState<CalendarCardProps["emotion"]>();
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [recordDetail, setRecordDetail] = useState<any | null>(null);
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth() + 1;
@@ -37,6 +39,22 @@ const Calendar = () => {
   };
 
   const router = useRouter();
+
+  const handleDayClick = async (dateStr: string, isThisMonth: boolean) => {
+    if (!isThisMonth) return;
+    setSelectedDate(dateStr);
+    try {
+      const res = await fetch(`http://13.209.69.235:8080/api/records/${dateStr}?userNo=${userNo}`);
+      if (res.ok) {
+        const data = await res.json();
+        setRecordDetail(data);
+      } else {
+        setRecordDetail(null);
+      }
+    } catch {
+      setRecordDetail(null);
+    }
+  };
 
   return (
     <div className="relative w-full h-screen overflow-hidden">
@@ -104,17 +122,7 @@ const Calendar = () => {
                         date={day.getDate()}
                         emotion={emotion}
                         disabled={!isThisMonth}
-                        onClick={
-                          isThisMonth
-                            ? () => {
-                                setSelectedEmotion(emotion);
-                                router.push({
-                                  pathname: `/calendar/${dateStr}`,
-                                  query: { emotion: emotion ?? "" },
-                                });
-                              }
-                            : undefined
-                        }
+                        onClick={() => handleDayClick(dateStr, isThisMonth)}
                       />
                     );
                   })}
@@ -125,6 +133,23 @@ const Calendar = () => {
           <AppFooter />
         </div>
       </AppBackground>
+      {/* 모달 */}
+      {selectedDate && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white text-black p-6 rounded-lg min-w-[300px]">
+            <h2 className="text-lg font-bold mb-2">{selectedDate} 일기</h2>
+            {recordDetail ? (
+              <div>
+                <div>감정: {recordDetail.emotion}</div>
+                <div>내용: {recordDetail.answer?.additionalProp1}</div>
+              </div>
+            ) : (
+              <div>일기 없음</div>
+            )}
+            <button className="mt-4 px-4 py-2 bg-primary rounded" onClick={() => setSelectedDate(null)}>닫기</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
