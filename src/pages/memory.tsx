@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import { useSTT } from "@/hooks/useSTT";
 import Button from "@/components/UI/Button";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const MemoryPage = () => {
   const router = useRouter();
@@ -116,8 +117,44 @@ const MemoryPage = () => {
     }
   };
 
+  const handleGoHomeButtonClick = async () => {
+    router.push("/home");
+
+    try {
+          await axios.post('http://13.209.69.235:8080/api/', {
+            answer : {
+              emotion: userEmotion,
+              additionalProp1: response[1],
+              additionalProp2: response[2],
+              additionalProp3: response[3],
+            }
+        })
+          console.log("백엔드 전송 성공")
+        } catch (err) {
+          console.log("백엔드 전송 실패", err)
+        }
+  }
+
+   const handleGoRecallButtonClick = async () => {
+    router.push("/recall");
+    
+    try {
+          await axios.post('http://13.209.69.235:8080/api/', {
+            answer : {
+              emotion: userEmotion,
+              additionalProp1: response[1],
+              additionalProp2: response[2],
+              additionalProp3: response[3],
+            }
+        })
+          console.log("백엔드 전송 성공")
+        } catch (err) {
+          console.log("백엔드 전송 실패", err)
+        }
+  }
+
   return (
-    <div className="h-screen bg-background overflow-hidden">
+    <div className="h-screen overflow-hidden bg-background">
       <div className="flex flex-row gap-4 p-4">
         {" "}
         {/*header*/}
@@ -128,12 +165,12 @@ const MemoryPage = () => {
         <div className="flex flex-row justify-around w-full px-4">
           {" "}
           {/*body*/}
-          <button
-            className="py-2 text-black rounded bg-primary "
-            onClick={() => handleRecordStatusChange(recordStatus - 1)}
-          >
-            -1
-          </button>
+          {recordStatus === 0 ? (
+            <div className="w-[48px]"></div>
+            ) : (
+            <Image src='arrow_left.svg' alt='이전' width={48} height={48} onClick={() => handleRecordStatusChange(recordStatus - 1)} />
+            )
+          }
           {currentCard && (
             <QuestionCard
               title={currentCard.title}
@@ -144,12 +181,18 @@ const MemoryPage = () => {
               externalValue={response[recordStatus]} // 현재 상태에 해당하는 STT 결과를 전달
             />
           )}
-          <button
-            className="py-2 text-black rounded bg-primary "
-            onClick={() => handleRecordStatusChange(recordStatus + 1)}
-          >
-            +1
-          </button>
+          {recordStatus === 4 ? (
+            <div className="w-[48px]"></div>
+            ) : recordStatus === 0 && userEmotion !== 'nothing' ? (
+              <Image src='arrow_right.svg' alt='이전' width={48} height={48} onClick={() => handleRecordStatusChange(recordStatus + 1)} />
+            ) : recordStatus === 0 && userEmotion === 'nothing' ? (
+              <Image src='arrow_right_gray.svg' alt='이후_안넘어가기' width={48} height={48} />
+            ) : response[recordStatus] ? (
+            <Image src='arrow_right.svg' alt='이후' width={48} height={48} onClick={() => handleRecordStatusChange(recordStatus + 1)} />
+            ) : (
+            <Image src='arrow_right_gray.svg' alt='이후_안넘어가기' width={48} height={48} />
+            )
+          }
         </div>
         <div className="flex flex-col items-center w-full">
           {" "}
@@ -181,12 +224,12 @@ const MemoryPage = () => {
             <div className="flex flex-col w-full h-auto gap-4 px-6">
               <Button
                 text="기억퀴즈 풀기"
-                onClick={() => {}}
+                onClick={() => handleGoRecallButtonClick()}
                 className="rounded-[1.25rem] w-full py-4 text-lg font-semibold text-center leading-[1.4375rem] tracking tight bg-primary text-black"
               ></Button>
               <Button
                 text="홈으로 나가기"
-                onClick={() => router.push("/home")}
+                onClick={() => handleGoHomeButtonClick()}
                 className="rounded-[1.25rem] w-full py-4 text-lg font-semibold text-center leading-[1.4375rem] tracking tight bg-gray3 text-gray2"
               ></Button>
             </div>
