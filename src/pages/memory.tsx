@@ -45,7 +45,7 @@ const MemoryPage = () => {
       id: 1,
       title: (
         <h2 className="w-full text-xl font-semibold leading-6 tracking-tight text-center text-white">
-          오늘 <span className="text-primary">누구</span>와 함께
+          <span className="text-primary">오늘 누구</span>와
           <br />
           시간을 보냈나요?
         </h2>
@@ -59,13 +59,9 @@ const MemoryPage = () => {
       id: 2,
       title: (
         <h2 className="w-full text-xl font-semibold leading-6 tracking-tight text-center text-white">
-          오늘 먹은 식사 중에서{" "}
-          <span className="text-primary">
-            가장 기억에
-            <br />
-            남는 음식
-          </span>
-          은 무엇인가요?
+          <span className="text-primary">오늘 먹은 음식 </span>중 가장 인상{" "}
+          <br />
+          깊었던 건 무엇인가요?
         </h2>
       ),
       emotion: "nothing",
@@ -77,13 +73,9 @@ const MemoryPage = () => {
       id: 3,
       title: (
         <h2 className="w-full text-xl font-semibold leading-6 tracking-tight text-center text-white">
-          오늘 하루 중{" "}
-          <span className="text-primary">
-            가장 기억에 남는
-            <br />
-            경험
-          </span>
-          은 무엇인가요?
+          <span className="text-primary">오늘 꼭 기억하고 싶은 순간</span>은{" "}
+          <br />
+          무엇인가요?
         </h2>
       ),
       emotion: "nothing",
@@ -125,7 +117,7 @@ const MemoryPage = () => {
   };
 
   return (
-    <div className="h-screen bg-background">
+    <div className="h-screen bg-background overflow-hidden">
       <div className="flex flex-row gap-4 p-4">
         {" "}
         {/*header*/}
