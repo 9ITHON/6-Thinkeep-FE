@@ -30,17 +30,18 @@ export const authOptions: NextAuthOptions = {
                 // 아래 코드 같은 경우 name을 받을 수 있음
                 token.name = user.name
             }
+
             return token;
         },
         async session({ session, token }) {
-            console.log("Session Callback:", {session, token});
-
+            
             // session 조회 할 때 아래 코드 같이 설정할 경우 토근에 보낸 값을 전부 볼 수 있음
             session.user = {
                 name: token.name,
                 email: token.sub,
                 image: token.picture
             }
+            console.log("Session Callback:", {session, token});
 
             return session;
         },

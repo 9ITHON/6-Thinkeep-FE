@@ -1,14 +1,11 @@
 import { atom } from 'recoil';
 
 export const USER_KEY = 'user';
-export const DEFAULT_USER_NAME = '홍길동';
+export const DEFAULT_USER_NAME = 0;
 
 export type UserState = {
-  name: string;
+  userNo: number;
 };
 export const userState = atom<UserState>({
   key: USER_KEY,
-  default: {
-    name: DEFAULT_USER_NAME,
-  },
 });
