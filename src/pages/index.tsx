@@ -10,7 +10,7 @@ const Main = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       router.push("/login");
-    }, 2000); // 2초 후 이동
+    }, 1000); // 1초 후 이동
 
     return () => clearTimeout(timer);
   }, [router]);

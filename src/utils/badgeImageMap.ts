@@ -3,19 +3,19 @@ export const badgeImageMap: Record<
   { image: string; imageGray: string }
 > = {
   1: {
-    image: "/badges/badge_1.png",
-    imageGray: "/badges/badge_gray_1.png",
+    image: "/badges/badge_1.svg",
+    imageGray: "/badges/badge_gray_1.svg",
   },
   2: {
-    image: "/badges/badge_2.png",
-    imageGray: "/badges/badge_gray_2.png",
+    image: "/badges/badge_2.svg",
+    imageGray: "/badges/badge_gray_2.svg",
   },
   3: {
-    image: "/badges/badge_3.png",
-    imageGray: "/badges/badge_gray_3.png",
+    image: "/badges/badge_3.svg",
+    imageGray: "/badges/badge_gray_3.svg",
   },
   4: {
-    image: "/badges/badge_4.png",
-    imageGray: "/badges/badge_gray_4.png",
+    image: "/badges/badge_4.svg",
+    imageGray: "/badges/badge_gray_4.svg",
   },
 };

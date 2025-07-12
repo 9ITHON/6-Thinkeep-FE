@@ -51,7 +51,7 @@ const HomePage = () => {
                     }`}
                   />
                   <span
-                    className={`text-[18px] leading-[23px] font-medium tracking-[-0.02em] ${
+                    className={`text-[20px] leading-[27px] font-medium tracking-[-0.02em] ${
                       i === 5
                         ? "text-blue"
                         : i === 6

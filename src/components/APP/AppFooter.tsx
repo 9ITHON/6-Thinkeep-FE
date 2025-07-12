@@ -23,7 +23,7 @@ export const AppFooter = () => {
     <footer
       className="fixed w-[361px] h-[78px]  bottom-8 left-1/2 -translate-x-1/2  max-w-md rounded-full 
              bg-background p-0 flex 
-             shadow-[inset_0_0_100px_0_#FAFAF84A] backdrop-blur-[40px]"
+             shadow-[inset_0_0_100px_0_#FAFAF84A] backdrop-blur-[40px] z-999"
     >
       {tabs.map((tab) => {
         const isActive = activeTab === tab.id;

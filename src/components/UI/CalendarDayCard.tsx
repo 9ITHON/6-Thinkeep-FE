@@ -24,7 +24,7 @@ const CalendarDayCard = ({
     >
       {/* 날짜 텍스트 */}
       <span
-        className={`pt-[8px] font-semibold text-[18px] leading-[23px] tracking-[-0.02em] ${
+        className={`pt-[8px] font-semibold text-[20px] leading-[27px] tracking-[-0.02em] ${
           disabled ? "text-gray2" : "text-white"
         }`}
       >
