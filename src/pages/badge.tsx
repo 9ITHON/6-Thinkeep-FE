@@ -32,25 +32,25 @@ const getBadgeProgress = (currentDay: number) => {
 
 const badgeData = [
   {
-    image: "/badges/badge_1.png",
+    image: "/badges/badge_1.svg",
     message: "기억루틴, 잘 시작하셨어요!",
   },
   {
-    image: "/badges/badge_2.png",
+    image: "/badges/badge_2.svg",
     message: "매일의 기억이 쌓이고 있어요!",
   },
   {
-    image: "/badges/badge_3.png",
+    image: "/badges/badge_3.svg",
     message: "이제 추억은 당신의 습관입니다!",
   },
   {
-    image: "/badges/badge_4.png",
+    image: "/badges/badge_4.svg",
     message: "추억이 쌓여, 당신만의 이야기가 되었어요. 굉장해요!",
   },
 ];
 
 const BadgePage = () => {
-  const currentDay = 7;
+  const currentDay = 14;
   const { current, total, justAchieved, badgeLevel } =
     getBadgeProgress(currentDay);
   const [showPopup, setShowPopup] = useState(false);
@@ -77,7 +77,7 @@ const BadgePage = () => {
             당신의 추억을 담아보세요!
           </p>
 
-          <div className="w-[354px] h-[281px] bg-gray1 rounded-[25px] flex flex-col justify-start py-5 px-4 gap-4">
+          <div className="w-[354px] h-[363px] bg-gray1 rounded-[25px] flex flex-col justify-start py-5 px-4 gap-4 z-0">
             <p className="text-[20px] font-semibold text-white leading-[26px] pl-3">
               000님의 뱃지
             </p>
