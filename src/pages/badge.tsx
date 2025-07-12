@@ -1,0 +1,115 @@
+"use client";
+import React, { useState, useEffect } from "react";
+import CircleGraph from "@/components/UI/CircleGraph";
+import BadgeCard from "@/components/UI/BadgeCard";
+import BadgePopup from "@/components/UI/BadgePopup";
+import AppBackground from "@/components/APP/AppBackground";
+import AppFooter from "@/components/APP/AppFooter";
+import axios from "axios";
+import { useCounterStore } from "@/providers/counter-store-provider";
+
+
+const badgeGoals = [3, 7, 14, 30];
+
+try {
+  const myBadge = await axios.get("http://13.209.69.235:8080/api/badges");
+  console.log("Badge data fetched successfully:", myBadge.data);
+} catch (err) {
+  console.error("Failed to fetch badge data:", err);
+}
+
+const getBadgeProgress = (currentDay: number) => {
+  let previous = 0;
+  for (const goal of badgeGoals) {
+    if (currentDay <= goal) {
+      return {
+        current: Math.max(currentDay - previous, 0),
+        total: goal - previous,
+        justAchieved: currentDay === goal,
+        badgeLevel: badgeGoals.indexOf(goal),
+      };
+    }
+    previous = goal;
+  }
+
+  return {
+    current: 1,
+    total: 1,
+    justAchieved: false,
+    badgeLevel: badgeGoals.length,
+  };
+};
+
+const BadgePage = () => {
+  const { userNo } = useCounterStore((state) => state);
+  const [badgeDay, setBadgeDay] = useState(13);
+
+  useEffect(() => {
+    const fetchDay = async () => {
+      try {
+        const res = await axios.get(`http://13.209.69.235:8080/api/${userNo}/streak?userNo=${userNo}`);
+        setBadgeDay(res.data.streakCount);
+      
+      } catch (err) {
+        console.error("백엔드에서 뱃지 데이터를 가져오는 데 실패했습니다:", err);
+      }
+    };
+
+    fetchDay();
+  }, [userNo]);  
+
+  const { current, total, justAchieved, badgeLevel } =
+    getBadgeProgress(badgeDay);
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    if (justAchieved) {
+      setShowPopup(true);
+    }
+  }, [justAchieved]);
+
+  return (
+    <div className="relative w-full h-screen">
+      <AppBackground backgroundImage="/images/home_background_img.png">
+        <div className="relative z-10 flex flex-col items-center pt-[70px] h-full text-white gap-6">
+          <p className="font-semibold text-[32px]">현재 연속 기록</p>
+
+          <CircleGraph
+            currentDay={current}
+            badgeDay={total}
+            textDay={badgeDay}
+          />
+
+          <p className="font-semibold text-[16px] pb-5">
+            당신의 추억을 담아보세요!
+          </p>
+
+          <div className="w-[354px] h-[363px] bg-gray1 rounded-[25px] flex flex-col justify-start py-5 px-4 gap-4 z-0">
+            <p className="text-[20px] font-semibold text-white leading-[26px] pl-3">
+              000님의 뱃지
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              {badgeGoals.map((goal, idx) => (
+                <BadgeCard
+                  key={idx}
+                  badgeId={idx + 1}
+                  achieved={badgeDay >= goal}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </AppBackground>
+
+      {showPopup && (
+        <BadgePopup
+          badgeId={badgeLevel + 1}
+          onClose={() => setShowPopup(false)}
+        />
+      )}
+      <AppFooter />
+    </div>
+  );
+};
+
+export default BadgePage;

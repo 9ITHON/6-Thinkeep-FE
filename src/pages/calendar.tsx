@@ -1,0 +1,205 @@
+import React, { useEffect, useState } from "react";
+import { format } from "date-fns";
+import CalendarDayCard, {
+  CalendarCardProps,
+} from "../components/UI/CalendarDayCard";
+import CalendarMonth from "../components/UI/CalendarMonth";
+import Button from "../components/UI/Button";
+import Image from "next/image";
+import { getCalendarWeeks } from "../utils/Date";
+import { getEmotionByDate } from "../utils/emotionUtils";
+import AppBackground from "@/components/APP/AppBackground";
+import { useRouter } from "next/router";
+import AppFooter from "@/components/APP/AppFooter";
+import axios from "axios";
+import { useCounterStore } from "@/providers/counter-store-provider";
+
+const Calendar = () => {
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [isMonthOpen, setIsMonthOpen] = useState(false);
+  const [selectedEmotion, setSelectedEmotion] =
+    useState<CalendarCardProps["emotion"]>();
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+
+  type UserResponse = {
+  emotion: string;
+  answers: {
+    Q1: string;
+    Q2: string;
+    Q3: string;
+    Q4: string;
+  };
+};
+  const [recordDetail, setRecordDetail] = useState<UserResponse>({
+    emotion: "happy",
+    answers: {
+      Q1: "오늘은 정말 좋은 날이었어요.",
+      Q2: "아침에 일찍 일어나서 운동을 했어요.",
+      Q3: "점심에는 친구와 맛있는 음식을 먹었어요.",
+      Q4: "저녁에는 가족과 함께 시간을 보냈어요."
+    }
+  });
+
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth() + 1;
+  const selected = format(currentDate, "yyyy.MM");
+  const weeks = getCalendarWeeks(year, month);
+
+  const { userNo } = useCounterStore((state) => state);
+  const [monthEmotion, setMonthEmotion] = useState<Record<string, CalendarCardProps["emotion"]>>(
+    {
+      "2025-07-01": "happy",
+      "2025-07-02": "sad",
+      "2025-07-03": "angry"
+    }); // 예시 데이터, 실제로는 API에서 받아와야 함
+
+
+  useEffect(() => {
+    const fetchEmotions = async () => {
+      try {
+        const res = await axios.get(`http://13.209.69.235:8080/api/records/emotions/${userNo}?year=${year}&month=${month}`);
+        setMonthEmotion(res.data.emotions);
+        console.log("월별 감정 데이터:", res.data.emotions);
+      } catch (err) {
+        console.error("Failed to fetch emotions:", err);
+      }
+    };
+
+    fetchEmotions();
+  }, [userNo, year, month]);
+
+  
+
+  
+
+  const handleMonthSelect = (monthString: string) => {
+    const [y, m] = monthString.split(".").map(Number);
+    setCurrentDate(new Date(y, m - 1, 1));
+    setIsMonthOpen(false);
+  };
+
+  const router = useRouter();
+
+  const handleDayClick = async (dateStr: string, isThisMonth: boolean) => {
+    if (!isThisMonth) return;
+    setSelectedDate(dateStr);
+    try {
+      const res = await axios.get(`http://13.209.69.235:8080/api/records/${dateStr}?userNo=${userNo}`);
+        const a : UserResponse = {
+          emotion: res.data.emotion,
+          answers: {
+            Q1: res.data.answers.Q1,
+            Q2: res.data.answers.Q2,
+            Q3: res.data.answers.Q3,
+            Q4: res.data.answers.Q4
+          }
+        };
+        console.log("일기 데이터:", a);
+
+        setRecordDetail(a);
+    } catch {
+      console.error("Failed to fetch record for date:", dateStr);
+    }
+  };
+
+  return (
+    <div className="relative w-full h-screen overflow-hidden">
+      <AppBackground backgroundImage="/images/home_background_img.png">
+        <div className="relative z-10 flex flex-col w-full h-full pt-[84px]">
+          <div className="flex flex-col flex-1 w-full overflow-hidden">
+            {/* 월 표시 헤더 */}
+            <div className="flex justify-center items-center h-[56px] w-full relative">
+              <Button
+                className="flex items-center gap-1 text-[20px] font-semibold text-white tracking-[-0.02em]"
+                onClick={() => setIsMonthOpen((prev) => !prev)}
+              >
+                {selected}
+                <Image
+                  src="/arrow_down.svg"
+                  alt="arrow"
+                  width={20}
+                  height={20}
+                />
+              </Button>
+
+              {isMonthOpen && (
+                <CalendarMonth
+                  selected={selected}
+                  onSelect={handleMonthSelect}
+                />
+              )}
+            </div>
+
+            <div className="flex flex-col w-full items-center flex-1 rounded-t-[32px] bg-background mt-2">
+              {/* 요일 헤더 */}
+              <div className="grid grid-cols-7 w-full text-[20px] font-semibold tracking-[-0.02em] text-white mt-3">
+                {["일", "월", "화", "수", "목", "금", "토"].map((day, idx) => (
+                  <div
+                    key={day}
+                    className={` mt-2 mb-2 text-center ${
+                      idx === 0
+                        ? "text-red"
+                        : idx === 6
+                        ? "text-blue"
+                        : "text-white"
+                    }`}
+                  >
+                    {day}
+                  </div>
+                ))}
+              </div>
+
+              {/* 날짜 카드 */}
+              {weeks.map((week, weekIdx) => (
+                <div
+                  key={weekIdx}
+                  className="flex gap-2 pt-2 pb-2 border-t border-gray2/40"
+                >
+                  {week.map((day) => {
+                    const isThisMonth = day.getMonth() + 1 === month;
+                    const emotion = isThisMonth
+                      ? getEmotionByDate(day, monthEmotion)
+                      : undefined;
+                    const dateStr = format(day, "yyyy-MM-dd");
+
+                    return (
+                      <CalendarDayCard
+                        key={day.toISOString()}
+                        date={day.getDate()}
+                        emotion={emotion}
+                        disabled={!isThisMonth}
+                        onClick={() => handleDayClick(dateStr, isThisMonth)}
+                      />
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
+          </div>
+          <AppFooter />
+        </div>
+      </AppBackground>
+      {/* 모달 */}
+      {selectedDate && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white text-black p-6 rounded-lg min-w-[300px]">
+            <h2 className="mb-2 text-lg font-bold">{selectedDate} 일기</h2>
+            {recordDetail ? (
+              <div>
+                <div>감정: {recordDetail.emotion}</div>
+                <div>내용: {recordDetail.answers?.Q2}</div>
+                <p>{recordDetail.answers?.Q3}</p>
+                <p>{recordDetail.answers?.Q4}</p>
+              </div>
+            ) : (
+              <div>일기 없음</div>
+            )}
+            <button className="px-4 py-2 mt-4 rounded bg-primary" onClick={() => setSelectedDate(null)}>닫기</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Calendar;
