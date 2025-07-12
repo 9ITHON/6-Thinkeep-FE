@@ -1,28 +1,46 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import AppBackground from "@/components/APP/AppBackground";
 import AppFooter from "@/components/APP/AppFooter";
 import { useRouter } from "next/navigation";
+import { format, startOfWeek, addDays } from "date-fns";
+import { recordApi } from "@/utils/Api/recordApi";
 
 const days = ["월", "화", "수", "목", "금", "토", "일"];
-const emotions = [
-  "filled",
-  "filled",
-  "filled",
-  "filled",
-  "empty",
-  "empty",
-  "empty",
-];
 
 const HomePage = () => {
   const router = useRouter();
+  const [emotions, setEmotions] = useState<string[]>(Array(7).fill("empty"));
+
+  useEffect(() => {
+    const loadWeeklyRecords = async () => {
+      const start = startOfWeek(new Date(), { weekStartsOn: 1 }); // 월요일 시작
+      const dates = Array.from({ length: 7 }, (_, i) =>
+        format(addDays(start, i), "yyyy-MM-dd")
+      );
+
+      const results = await Promise.all(
+        dates.map((date) =>
+          recordApi
+            .getByDate(date)
+            .then(() => "filled")
+            .catch(() => "empty")
+        )
+      );
+
+      setEmotions(results);
+    };
+
+    loadWeeklyRecords();
+  }, []);
 
   return (
     <div className="relative h-screen w-full overflow-hidden font-[var(--font-family)] text-white">
       <AppBackground backgroundImage="/images/home_background_img.png">
         <div className="relative z-10 flex flex-col justify-between h-full px-6 pb-[130px] text-center">
           <div className="pt-[115px]">
-            <p className="text-[32px] leading-[40px]  font-semibold text-primary tracking-[-0.02em]">
+            <p className="text-[32px] leading-[40px] font-semibold text-primary tracking-[-0.02em]">
               오늘 당신의 하루는
               <br />
               어땠나요?
@@ -52,10 +70,10 @@ const HomePage = () => {
                   />
                   <span
                     className={`text-[20px] leading-[27px] font-medium tracking-[-0.02em] ${
-                      i === 5
-                        ? "text-blue"
-                        : i === 6
+                      i === 6
                         ? "text-red"
+                        : i === 0
+                        ? "text-blue"
                         : "text-white"
                     }`}
                   >
@@ -65,6 +83,7 @@ const HomePage = () => {
               ))}
             </div>
           </div>
+
           <AppFooter />
         </div>
       </AppBackground>
