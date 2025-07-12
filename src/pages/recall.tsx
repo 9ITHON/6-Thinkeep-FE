@@ -4,8 +4,10 @@ import { HeaderBackward } from "@/components/UI/HeaderBacward";
 import QuestionCard from "@/components/UI/QuestionCard";
 import React, { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const RecallPage = () => {
+  const router = useRouter();
   const [recallStatus, setRecallStatus] = useState<number>(0);
   const handleRecall = (status: number) => {
     setRecallStatus(status);
@@ -38,12 +40,37 @@ const RecallPage = () => {
       iconSize: 228,
       micMessage: undefined,
     },
+    {
+      id: 2,
+      title: (
+        <h2 className="w-full text-xl font-semibold leading-6 tracking-tight text-center text-white">
+          <span className="text-primary">7월 13일</span>을 <br />
+          추억했어요!{" "}
+        </h2>
+      ),
+      emotion: "nothing",
+      icon: "flower.svg",
+      iconSize: 228,
+      micMessage: undefined,
+    },
   ];
 
   const currentCard = cardList.find((card) => card.id === recallStatus); //recordStatus에 해당하는 card를 찾음
 
+  const [response, setResponse] = useState<Record<number, string>>({
+    0: "",
+    1: "",
+  });
+
+  const handleRecallAnswer = (answer: string) => {
+    setResponse((prev) => ({
+      ...prev,
+      [recallStatus]: answer,
+    }));
+  };
+
   return (
-    <div className="w-full h-screen bg-background">
+    <div className="w-full h-screen overflow-hidden bg-background">
       <div className="flex flex-row gap-4 p-4">
         {" "}
         {/*header*/}
@@ -86,31 +113,49 @@ const RecallPage = () => {
           )}
         </div>
         <div className="flex flex-col items-center w-full h-auto gap-6 px-6">
-          <p className="pb-20 font-semibold text-white text-[1.125rem] leading-[1.4375rem] tracking-tight underline decoration-solid decoration-auto underline-offset-auto">
-            모르겠어요. 다음에 할게여!
+          <p
+            onClick={() => {
+              setResponse((prev) => ({
+                ...prev,
+                [recallStatus]: "",
+              }));
+              if (recallStatus < 2) {
+                setRecallStatus(recallStatus + 1);
+              }
+            }}
+            className="cursor-pointer pb-20 font-semibold text-white text-[1.125rem] leading-[1.4375rem] tracking-tight underline decoration-solid decoration-auto underline-offset-auto"
+          >
+            모르겠어요. 넘어갈게요!
           </p>
+
           <div className="flex flex-row w-full h-auto gap-2">
-            <Button
-              text="철수"
-              onClick={() => {}}
-              className="rounded-[1.25rem] w-full py-8 text-[1.375rem] font-semibold text-center leading-[1.875rem] tracking-tight bg-primary text-background"
-            ></Button>
-            <Button
-              text="영희"
-              onClick={() => {}}
-              className="rounded-[1.25rem] w-full py-8 text-[1.375rem] font-semibold text-center leading-[1.875rem] tracking-tight bg-primary text-background"
-            ></Button>
-            <Button
-              text="돌쇠"
-              onClick={() => {}}
-              className="rounded-[1.25rem] w-full py-8 text-[1.375rem] font-semibold text-center leading-[1.875rem] tracking-tight bg-gray2 text-background"
-            ></Button>
+            {["철수", "영희", "돌쇠"].map((name) => (
+              <Button
+                key={name}
+                text={name}
+                onClick={() => handleRecallAnswer(name)}
+                className={`rounded-[1.25rem] w-full py-8 text-[1.375rem] font-semibold text-center leading-[1.875rem] tracking-tight 
+        ${
+          response[recallStatus] === name
+            ? "bg-primary text-background"
+            : "bg-gray2 text-background"
+        }`}
+              />
+            ))}
           </div>
+
           <Button
             text="제출하기"
-            onClick={() => {}}
-            className="rounded-[1.25rem] w-full py-5 text-[1.125rem] font-semibold text-center leading-[1.435rem] tracking-tight bg-primary text-background"
-          ></Button>
+            onClick={() => {
+              console.log("제출 데이터:", response);
+            }}
+            className={`rounded-[1.25rem] w-full py-5 text-[1.125rem] font-semibold text-center leading-[1.435rem] tracking-tight 
+    ${
+      response[recallStatus]
+        ? "bg-primary text-background"
+        : "bg-gray3 text-gray2"
+    }`}
+          />
         </div>
       </div>
     </div>
