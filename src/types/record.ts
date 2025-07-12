@@ -1,9 +1,3 @@
-export interface ErrorResponse {
-  success: boolean;
-  message: string;
-  timestamp: string;
-}
-
 // 질문별 답변
 export type RecordAnswers = {
   Q1: string;
@@ -21,16 +15,14 @@ export interface RecordCreateRequest {
 export interface RecordResponse {
   recordId: number;
   userNo: number;
-  date: string;
+  date: string; // YYYY-MM-DD 형식
   answers: RecordAnswers;
-
   isComplete: boolean;
   isToday: boolean;
-  createdAt: string;
-  updatedAt: string;
-
   answerCount: number; // 답변한 질문 수
-  statusMessage: string; // 상태 메시지
+  statusMessage: string; // 상태 메시지 ("완료", "진행 중")
+  createdAt: string; // YYYY-MM-DDTHH:mm:ss 형식
+  updatedAt: string; // YYYY-MM-DDTHH:mm:ss 형식
 }
 
 // 새로 획득한 뱃지
@@ -51,10 +43,8 @@ export interface TodayRecordStatus {
   hasRecord: boolean; // 오늘 기록 존재 여부
   date: string; // 날짜
   record: RecordResponse | null; // 기록 내용 (있는 경우)
-
   canCreate: boolean; // 새 기록 생성 가능
   canEdit: boolean; // 수정 가능
-
   statusMessage: string; // 상태 메시지
   actionMessage: string; // 액션 안내 메시지
 }
