@@ -32,7 +32,7 @@
 # 2. Directory Architecture
 
 - public : 이미지 및 asset 공통 폴더
-- api :  API 연동 및 파일
+- axios :  API 연동 및 파일
 - assets : 에셋 파일
 - components : page 디렉토리의 각 페이지를 구성하는 개별 컴포넌트 작성
     - APP : 프로젝트 전반을 구성하는 Layout을 AppHeader, AppFooter로 나누어서 각 영역별 컴포넌트 작성
